@@ -2,8 +2,37 @@
 #include <fstream>
 #include <sstream>
 #include <vector>
-//asdfghjk
+
 using namespace std;
+
+class Charity {
+private:
+
+public:
+    string Name;
+    string Category;
+    string State;
+    string AScore;
+    string Subcategory;
+    //float weight;
+    vector<pair<Charity, float>> adj;
+    
+    Charity(){};
+    Charity(string Name, string Category, string State, string AScore, string Subcategory) {
+        this->Name = Name;
+        this->Category = Category;
+        this->State = State;
+        this->AScore = AScore;
+        this->Subcategory = Subcategory;
+    }
+    vector<pair<Charity, float>> GetAdj() {
+        return adj;
+    }
+
+};
+
+
+
 
 // CSV Reading from stackoverflow user sastanin (https://stackoverflow.com/questions/1120140/how-can-i-read-and-parse-csv-files-in-c)
 enum class CSVState {
