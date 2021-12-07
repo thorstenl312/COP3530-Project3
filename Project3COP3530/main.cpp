@@ -2,11 +2,7 @@
 #include <fstream>
 #include <sstream>
 #include <vector>
-<<<<<<< HEAD
 
-=======
-//asdfghjk Hi MAITHI
->>>>>>> 7e039cbe85670ecd5f08979b6f37c96f9e891bf6
 using namespace std;
 
 class Charity {
@@ -44,6 +40,7 @@ enum class CSVState {
     QuotedField,
     QuotedQuote
 };
+
 vector<string> readCSVRow(const string &row) {
     CSVState state = CSVState::UnquotedField;
     vector<string> fields {""};
@@ -101,6 +98,8 @@ vector<vector<string>> readCSV(ifstream &in) {
 
 int main()
 {
+    vector<Charity> charities;
+
     string filePath = "CLEAN_charity_data.csv";
     vector<vector<string>> charityData;
 
@@ -111,9 +110,29 @@ int main()
 
     for (int i = 0; i < charityData.size(); i++)
     {
+        Charity a;
         for (int j = 0; j < charityData[i].size(); j++)
         {
-            cout << i << " : " << charityData[i][j] << endl;
+            if(j == 0) {
+                a.AScore = charityData[i][j];
+            }
+            if(j == 1) {
+                a.Category = charityData[i][j];
+            }
+            if(j == 14) {
+                a.Name = charityData[i][j];
+            }
+            if(j == 17) {
+                a.State = charityData[i][j];
+            }
+            if(j == 18) {
+                a.Subcategory = charityData[i][j];
+            }
         }
+
+        charities.push_back(a);
     }
+    
+    return 0;
+
 }
