@@ -3,33 +3,46 @@
 #include <sstream>
 #include <vector>
 #include <stdlib.h>
-
+#include <list>
 using namespace std;
+
 int numberOfCharities = 8000; //Zoe said "Fix later"
+struct Node{
+    Node* next;
+    int weight;
+    // Charity* charnode;
+    string charname;
+
+    Node() {
+        next = nullptr;
+        weight = 0;
+    }
+    Node(int weight) {
+        this->weight = weight;
+    }
+};
 class Charity {
 private:
 
 public:
+
     string Name;
     string Category;
     string State;
     string AScore;
     string Subcategory;
-    vector<pair<Charity, int>> adj;
-    
-    Charity(){};
-    Charity(string Name, string Category, string State, string AScore, string Subcategory) {
-        this->Name = Name;
-        this->Category = Category;
-        this->State = State;
-        this->AScore = AScore;
-        this->Subcategory = Subcategory;
-    }
+    Node* head;
+
+    Charity(){
+        head = nullptr;
+        Name = "empty";
+        Category = "empty";
+        State = "empty";
+        AScore = "empty";
+        Subcategory = "empty";
+    };
 
 };
-
-
-
 
 // CSV Reading from stackoverflow user sastanin (https://stackoverflow.com/questions/1120140/how-can-i-read-and-parse-csv-files-in-c)
 enum class CSVState {
@@ -94,14 +107,56 @@ vector<vector<string>> readCSV(ifstream &in) {
 }
 void weightRandomizer(Charity a, vector<Charity>& v){
     int edges = 5;
-    for(int i = 0; i < edges; i++){
+//    for(int i = 0; i < edges; i++){
+//        int randomCharity = rand() % numberOfCharities;
+//        pair<Charity, float> p;
+//        p.first = v[randomCharity];
+//        p.second = rand() % 1000;
+//        a.adj.push_back(p);
+//        p.first = a;
+//        v[randomCharity].adj.push_back(p);
+//    }
+//
+    int count = 0;
+    for(int i = 0; i < edges; i++) {
+        Node* b;
         int randomCharity = rand() % numberOfCharities;
-        pair<Charity, float> p;
-        p.first = v[randomCharity];
-        p.second = rand() % 1000;
-        a.adj.push_back(p);
-        p.first = a;
-        v[randomCharity].adj.push_back(p);
+        int randomWeight = rand() % 1000;
+        //add into the first while adding into the other
+        cout << v[randomCharity].Name << endl;
+        b->charname = v[count].Name;
+        count++;
+        b->weight = randomWeight;
+        cout << v[randomCharity].Name << endl;
+        if(a.head == nullptr) {
+            a.head = b;
+        }
+        else {
+            Node* temp = a.head;
+            b->next = temp;
+            a.head = b;
+
+//            b->next = a.head;
+//            a.head = b;
+        }
+
+        Node* c;
+        //add into the first while adding into the other
+        c->charname = a.Name;
+        c->weight = randomWeight;
+        if(v[count].head == nullptr) {
+            v[count].head = c;
+        }
+        else {
+            Node* temp = v[count].head;
+            c->next = temp;
+            v[count].head = c;
+
+//           c->next = v[randomCharity].head;
+//            v[randomCharity].head = c;
+        }
+
+
     }
 }
 int main()
@@ -116,7 +171,7 @@ int main()
         charityData = readCSV(inFile);
     }
 
-    for (int i = 0; i < charityData.size(); i++)
+    for (int i = 1; i < charityData.size(); i++)
     {
         Charity a;
         for (int j = 0; j < charityData[i].size(); j++)
@@ -137,19 +192,11 @@ int main()
                 a.Subcategory = charityData[i][j];
             }
         }
-<<<<<<< HEAD
         charities.push_back(a);
     }
     for (int i = 0; i < charities.size(); i++) {
         weightRandomizer(charities[i], charities);
-
     }
-=======
-
-        charities.push_back(a);
-    }
-    
->>>>>>> parent of e5fdbea (4tyui)
     return 0;
 
 }
