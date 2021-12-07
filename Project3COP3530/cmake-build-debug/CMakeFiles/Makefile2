@@ -53,10 +53,10 @@ RM = "C:\Users\thors\AppData\Local\JetBrains\CLion 2021.2.2\bin\cmake\win\bin\cm
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = C:\Users\thors\Documents\GitHub\COP3530-Project3\Project3COP3530
+CMAKE_SOURCE_DIR = C:\Users\thors\CLionProjects\Project3COP3530
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = C:\Users\thors\Documents\GitHub\COP3530-Project3\Project3COP3530\cmake-build-debug
+CMAKE_BINARY_DIR = C:\Users\thors\CLionProjects\Project3COP3530\cmake-build-debug
 
 #=============================================================================
 # Directory level rules for the build root directory
@@ -80,14 +80,14 @@ clean: CMakeFiles/Project3COP3530.dir/clean
 CMakeFiles/Project3COP3530.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Project3COP3530.dir\build.make CMakeFiles/Project3COP3530.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Project3COP3530.dir\build.make CMakeFiles/Project3COP3530.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=C:\Users\thors\Documents\GitHub\COP3530-Project3\Project3COP3530\cmake-build-debug\CMakeFiles --progress-num=1,2 "Built target Project3COP3530"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=C:\Users\thors\CLionProjects\Project3COP3530\cmake-build-debug\CMakeFiles --progress-num=1,2 "Built target Project3COP3530"
 .PHONY : CMakeFiles/Project3COP3530.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/Project3COP3530.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\thors\Documents\GitHub\COP3530-Project3\Project3COP3530\cmake-build-debug\CMakeFiles 2
+	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\thors\CLionProjects\Project3COP3530\cmake-build-debug\CMakeFiles 2
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 CMakeFiles/Project3COP3530.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\thors\Documents\GitHub\COP3530-Project3\Project3COP3530\cmake-build-debug\CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\thors\CLionProjects\Project3COP3530\cmake-build-debug\CMakeFiles 0
 .PHONY : CMakeFiles/Project3COP3530.dir/rule
 
 # Convenience name for target.

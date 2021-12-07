@@ -2,9 +2,10 @@
 #include <fstream>
 #include <sstream>
 #include <vector>
+#include <stdlib.h>
 
 using namespace std;
-
+int numberOfCharities = 8000; //Zoe said "Fix later"
 class Charity {
 private:
 
@@ -14,8 +15,7 @@ public:
     string State;
     string AScore;
     string Subcategory;
-    //float weight;
-    vector<pair<Charity, float>> adj;
+    vector<pair<Charity, int>> adj;
     
     Charity(){};
     Charity(string Name, string Category, string State, string AScore, string Subcategory) {
@@ -24,9 +24,6 @@ public:
         this->State = State;
         this->AScore = AScore;
         this->Subcategory = Subcategory;
-    }
-    vector<pair<Charity, float>> GetAdj() {
-        return adj;
     }
 
 };
@@ -95,7 +92,18 @@ vector<vector<string>> readCSV(ifstream &in) {
     }
     return table;
 }
-
+void weightRandomizer(Charity a, vector<Charity>& v){
+    int edges = 5;
+    for(int i = 0; i < edges; i++){
+        int randomCharity = rand() % numberOfCharities;
+        pair<Charity, float> p;
+        p.first = v[randomCharity];
+        p.second = rand() % 1000;
+        a.adj.push_back(p);
+        p.first = a;
+        v[randomCharity].adj.push_back(p);
+    }
+}
 int main()
 {
     vector<Charity> charities;
@@ -108,7 +116,7 @@ int main()
         charityData = readCSV(inFile);
     }
 
-    for (int i = 0; i < charityData.size(); i++)
+    for (int i = 1; i < charityData.size(); i++)
     {
         Charity a;
         for (int j = 0; j < charityData[i].size(); j++)
@@ -129,10 +137,12 @@ int main()
                 a.Subcategory = charityData[i][j];
             }
         }
-
         charities.push_back(a);
     }
-    
+    for (int i = 0; i < charities.size(); i++) {
+        weightRandomizer(charities[i], charities);
+
+    }
     return 0;
 
 }

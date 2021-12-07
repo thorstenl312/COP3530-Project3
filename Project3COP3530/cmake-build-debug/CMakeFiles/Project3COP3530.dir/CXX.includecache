@@ -6,7 +6,7 @@
 
 #IncludeRegexTransform: 
 
-C:/Users/thors/Documents/GitHub/COP3530-Project3/Project3COP3530/main.cpp
+C:/Users/thors/CLionProjects/Project3COP3530/main.cpp
 iostream
 -
 fstream
@@ -14,5 +14,7 @@ fstream
 sstream
 -
 vector
+-
+stdlib.h
 -
 
