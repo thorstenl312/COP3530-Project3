@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 # Install script for directory: C:/Users/thors/CLionProjects/Project3COP3530
+=======
+# Install script for directory: C:/Users/thors/Documents/GitHub/COP3530-Project3/Project3COP3530
+>>>>>>> parent of e5fdbea (4tyui)
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -45,5 +49,9 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
+<<<<<<< HEAD
 file(WRITE "C:/Users/thors/CLionProjects/Project3COP3530/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
+=======
+file(WRITE "C:/Users/thors/Documents/GitHub/COP3530-Project3/Project3COP3530/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
+>>>>>>> parent of e5fdbea (4tyui)
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

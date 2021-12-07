@@ -56,10 +56,17 @@ RM = "C:\Users\thors\AppData\Local\JetBrains\CLion 2021.2.2\bin\cmake\win\bin\cm
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
+<<<<<<< HEAD
 CMAKE_SOURCE_DIR = C:\Users\thors\CLionProjects\Project3COP3530
 
 # The top-level build directory on which CMake was run.
 CMAKE_BINARY_DIR = C:\Users\thors\CLionProjects\Project3COP3530\cmake-build-debug
+=======
+CMAKE_SOURCE_DIR = C:\Users\thors\Documents\GitHub\COP3530-Project3\Project3COP3530
+
+# The top-level build directory on which CMake was run.
+CMAKE_BINARY_DIR = C:\Users\thors\Documents\GitHub\COP3530-Project3\Project3COP3530\cmake-build-debug
+>>>>>>> parent of e5fdbea (4tyui)
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -86,9 +93,15 @@ rebuild_cache/fast: rebuild_cache
 
 # The main all target
 all: cmake_check_build_system
+<<<<<<< HEAD
 	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\thors\CLionProjects\Project3COP3530\cmake-build-debug\CMakeFiles C:\Users\thors\CLionProjects\Project3COP3530\cmake-build-debug\\CMakeFiles\progress.marks
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 all
 	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\thors\CLionProjects\Project3COP3530\cmake-build-debug\CMakeFiles 0
+=======
+	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\thors\Documents\GitHub\COP3530-Project3\Project3COP3530\cmake-build-debug\CMakeFiles C:\Users\thors\Documents\GitHub\COP3530-Project3\Project3COP3530\cmake-build-debug\\CMakeFiles\progress.marks
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 all
+	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\thors\Documents\GitHub\COP3530-Project3\Project3COP3530\cmake-build-debug\CMakeFiles 0
+>>>>>>> parent of e5fdbea (4tyui)
 .PHONY : all
 
 # The main clean target

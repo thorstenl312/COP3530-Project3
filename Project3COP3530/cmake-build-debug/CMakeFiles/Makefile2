@@ -53,10 +53,17 @@ RM = "C:\Users\thors\AppData\Local\JetBrains\CLion 2021.2.2\bin\cmake\win\bin\cm
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
+<<<<<<< HEAD
 CMAKE_SOURCE_DIR = C:\Users\thors\CLionProjects\Project3COP3530
 
 # The top-level build directory on which CMake was run.
 CMAKE_BINARY_DIR = C:\Users\thors\CLionProjects\Project3COP3530\cmake-build-debug
+=======
+CMAKE_SOURCE_DIR = C:\Users\thors\Documents\GitHub\COP3530-Project3\Project3COP3530
+
+# The top-level build directory on which CMake was run.
+CMAKE_BINARY_DIR = C:\Users\thors\Documents\GitHub\COP3530-Project3\Project3COP3530\cmake-build-debug
+>>>>>>> parent of e5fdbea (4tyui)
 
 #=============================================================================
 # Directory level rules for the build root directory
@@ -80,14 +87,24 @@ clean: CMakeFiles/Project3COP3530.dir/clean
 CMakeFiles/Project3COP3530.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Project3COP3530.dir\build.make CMakeFiles/Project3COP3530.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Project3COP3530.dir\build.make CMakeFiles/Project3COP3530.dir/build
+<<<<<<< HEAD
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=C:\Users\thors\CLionProjects\Project3COP3530\cmake-build-debug\CMakeFiles --progress-num=1,2 "Built target Project3COP3530"
+=======
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=C:\Users\thors\Documents\GitHub\COP3530-Project3\Project3COP3530\cmake-build-debug\CMakeFiles --progress-num=1,2 "Built target Project3COP3530"
+>>>>>>> parent of e5fdbea (4tyui)
 .PHONY : CMakeFiles/Project3COP3530.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/Project3COP3530.dir/rule: cmake_check_build_system
+<<<<<<< HEAD
 	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\thors\CLionProjects\Project3COP3530\cmake-build-debug\CMakeFiles 2
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 CMakeFiles/Project3COP3530.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\thors\CLionProjects\Project3COP3530\cmake-build-debug\CMakeFiles 0
+=======
+	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\thors\Documents\GitHub\COP3530-Project3\Project3COP3530\cmake-build-debug\CMakeFiles 2
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 CMakeFiles/Project3COP3530.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\thors\Documents\GitHub\COP3530-Project3\Project3COP3530\cmake-build-debug\CMakeFiles 0
+>>>>>>> parent of e5fdbea (4tyui)
 .PHONY : CMakeFiles/Project3COP3530.dir/rule
 
 # Convenience name for target.

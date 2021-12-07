@@ -8,6 +8,7 @@
 		<Option virtualFolders="CMake Files\;"/>
 		<Build>
 			<Target title="all">
+<<<<<<< HEAD
 				<Option working_dir="C:/Users/thors/CLionProjects/Project3COP3530/cmake-build-debug"/>
 				<Option type="4"/>
 				<MakeCommands>
@@ -20,6 +21,20 @@
 			<Target title="Project3COP3530">
 				<Option output="C:/Users/thors/CLionProjects/Project3COP3530/cmake-build-debug/Project3COP3530.exe" prefix_auto="0" extension_auto="0"/>
 				<Option working_dir="C:/Users/thors/CLionProjects/Project3COP3530/cmake-build-debug"/>
+=======
+				<Option working_dir="C:/Users/thors/Documents/GitHub/COP3530-Project3/Project3COP3530/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="C:/PROGRA~1/MINGW-~1/X86_64~1.0-P/mingw64/bin/mingw32-make.exe -f &quot;C:/Users/thors/Documents/GitHub/COP3530-Project3/Project3COP3530/cmake-build-debug/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="C:/PROGRA~1/MINGW-~1/X86_64~1.0-P/mingw64/bin/mingw32-make.exe -f &quot;C:/Users/thors/Documents/GitHub/COP3530-Project3/Project3COP3530/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="C:/PROGRA~1/MINGW-~1/X86_64~1.0-P/mingw64/bin/mingw32-make.exe -f &quot;C:/Users/thors/Documents/GitHub/COP3530-Project3/Project3COP3530/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="C:/PROGRA~1/MINGW-~1/X86_64~1.0-P/mingw64/bin/mingw32-make.exe -f &quot;C:/Users/thors/Documents/GitHub/COP3530-Project3/Project3COP3530/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="Project3COP3530">
+				<Option output="C:/Users/thors/Documents/GitHub/COP3530-Project3/Project3COP3530/cmake-build-debug/Project3COP3530.exe" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="C:/Users/thors/Documents/GitHub/COP3530-Project3/Project3COP3530/cmake-build-debug"/>
+>>>>>>> parent of e5fdbea (4tyui)
 				<Option object_output="./"/>
 				<Option type="1"/>
 				<Option compiler="gcc"/>
@@ -32,6 +47,7 @@
 					<Add directory="C:/Program Files/mingw-w64/x86_64-8.1.0-posix-seh-rt_v6-rev0/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/8.1.0/../../../../x86_64-w64-mingw32/include"/>
 				</Compiler>
 				<MakeCommands>
+<<<<<<< HEAD
 					<Build command="C:/PROGRA~1/MINGW-~1/X86_64~1.0-P/mingw64/bin/mingw32-make.exe -f &quot;C:/Users/thors/CLionProjects/Project3COP3530/cmake-build-debug/Makefile&quot;  VERBOSE=1 Project3COP3530"/>
 					<CompileFile command="C:/PROGRA~1/MINGW-~1/X86_64~1.0-P/mingw64/bin/mingw32-make.exe -f &quot;C:/Users/thors/CLionProjects/Project3COP3530/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
 					<Clean command="C:/PROGRA~1/MINGW-~1/X86_64~1.0-P/mingw64/bin/mingw32-make.exe -f &quot;C:/Users/thors/CLionProjects/Project3COP3530/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
@@ -41,6 +57,17 @@
 			<Target title="Project3COP3530/fast">
 				<Option output="C:/Users/thors/CLionProjects/Project3COP3530/cmake-build-debug/Project3COP3530.exe" prefix_auto="0" extension_auto="0"/>
 				<Option working_dir="C:/Users/thors/CLionProjects/Project3COP3530/cmake-build-debug"/>
+=======
+					<Build command="C:/PROGRA~1/MINGW-~1/X86_64~1.0-P/mingw64/bin/mingw32-make.exe -f &quot;C:/Users/thors/Documents/GitHub/COP3530-Project3/Project3COP3530/cmake-build-debug/Makefile&quot;  VERBOSE=1 Project3COP3530"/>
+					<CompileFile command="C:/PROGRA~1/MINGW-~1/X86_64~1.0-P/mingw64/bin/mingw32-make.exe -f &quot;C:/Users/thors/Documents/GitHub/COP3530-Project3/Project3COP3530/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="C:/PROGRA~1/MINGW-~1/X86_64~1.0-P/mingw64/bin/mingw32-make.exe -f &quot;C:/Users/thors/Documents/GitHub/COP3530-Project3/Project3COP3530/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="C:/PROGRA~1/MINGW-~1/X86_64~1.0-P/mingw64/bin/mingw32-make.exe -f &quot;C:/Users/thors/Documents/GitHub/COP3530-Project3/Project3COP3530/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="Project3COP3530/fast">
+				<Option output="C:/Users/thors/Documents/GitHub/COP3530-Project3/Project3COP3530/cmake-build-debug/Project3COP3530.exe" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="C:/Users/thors/Documents/GitHub/COP3530-Project3/Project3COP3530/cmake-build-debug"/>
+>>>>>>> parent of e5fdbea (4tyui)
 				<Option object_output="./"/>
 				<Option type="1"/>
 				<Option compiler="gcc"/>
@@ -53,6 +80,7 @@
 					<Add directory="C:/Program Files/mingw-w64/x86_64-8.1.0-posix-seh-rt_v6-rev0/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/8.1.0/../../../../x86_64-w64-mingw32/include"/>
 				</Compiler>
 				<MakeCommands>
+<<<<<<< HEAD
 					<Build command="C:/PROGRA~1/MINGW-~1/X86_64~1.0-P/mingw64/bin/mingw32-make.exe -f &quot;C:/Users/thors/CLionProjects/Project3COP3530/cmake-build-debug/Makefile&quot;  VERBOSE=1 Project3COP3530/fast"/>
 					<CompileFile command="C:/PROGRA~1/MINGW-~1/X86_64~1.0-P/mingw64/bin/mingw32-make.exe -f &quot;C:/Users/thors/CLionProjects/Project3COP3530/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
 					<Clean command="C:/PROGRA~1/MINGW-~1/X86_64~1.0-P/mingw64/bin/mingw32-make.exe -f &quot;C:/Users/thors/CLionProjects/Project3COP3530/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
@@ -84,6 +112,39 @@
 			<Option target="Project3COP3530"/>
 		</Unit>
 		<Unit filename="C:/Users/thors/CLionProjects/Project3COP3530/CMakeLists.txt">
+=======
+					<Build command="C:/PROGRA~1/MINGW-~1/X86_64~1.0-P/mingw64/bin/mingw32-make.exe -f &quot;C:/Users/thors/Documents/GitHub/COP3530-Project3/Project3COP3530/cmake-build-debug/Makefile&quot;  VERBOSE=1 Project3COP3530/fast"/>
+					<CompileFile command="C:/PROGRA~1/MINGW-~1/X86_64~1.0-P/mingw64/bin/mingw32-make.exe -f &quot;C:/Users/thors/Documents/GitHub/COP3530-Project3/Project3COP3530/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="C:/PROGRA~1/MINGW-~1/X86_64~1.0-P/mingw64/bin/mingw32-make.exe -f &quot;C:/Users/thors/Documents/GitHub/COP3530-Project3/Project3COP3530/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="C:/PROGRA~1/MINGW-~1/X86_64~1.0-P/mingw64/bin/mingw32-make.exe -f &quot;C:/Users/thors/Documents/GitHub/COP3530-Project3/Project3COP3530/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="edit_cache">
+				<Option working_dir="C:/Users/thors/Documents/GitHub/COP3530-Project3/Project3COP3530/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="C:/PROGRA~1/MINGW-~1/X86_64~1.0-P/mingw64/bin/mingw32-make.exe -f &quot;C:/Users/thors/Documents/GitHub/COP3530-Project3/Project3COP3530/cmake-build-debug/Makefile&quot;  VERBOSE=1 edit_cache"/>
+					<CompileFile command="C:/PROGRA~1/MINGW-~1/X86_64~1.0-P/mingw64/bin/mingw32-make.exe -f &quot;C:/Users/thors/Documents/GitHub/COP3530-Project3/Project3COP3530/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="C:/PROGRA~1/MINGW-~1/X86_64~1.0-P/mingw64/bin/mingw32-make.exe -f &quot;C:/Users/thors/Documents/GitHub/COP3530-Project3/Project3COP3530/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="C:/PROGRA~1/MINGW-~1/X86_64~1.0-P/mingw64/bin/mingw32-make.exe -f &quot;C:/Users/thors/Documents/GitHub/COP3530-Project3/Project3COP3530/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="rebuild_cache">
+				<Option working_dir="C:/Users/thors/Documents/GitHub/COP3530-Project3/Project3COP3530/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="C:/PROGRA~1/MINGW-~1/X86_64~1.0-P/mingw64/bin/mingw32-make.exe -f &quot;C:/Users/thors/Documents/GitHub/COP3530-Project3/Project3COP3530/cmake-build-debug/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
+					<CompileFile command="C:/PROGRA~1/MINGW-~1/X86_64~1.0-P/mingw64/bin/mingw32-make.exe -f &quot;C:/Users/thors/Documents/GitHub/COP3530-Project3/Project3COP3530/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="C:/PROGRA~1/MINGW-~1/X86_64~1.0-P/mingw64/bin/mingw32-make.exe -f &quot;C:/Users/thors/Documents/GitHub/COP3530-Project3/Project3COP3530/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="C:/PROGRA~1/MINGW-~1/X86_64~1.0-P/mingw64/bin/mingw32-make.exe -f &quot;C:/Users/thors/Documents/GitHub/COP3530-Project3/Project3COP3530/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+		</Build>
+		<Unit filename="C:/Users/thors/Documents/GitHub/COP3530-Project3/Project3COP3530/main.cpp">
+			<Option target="Project3COP3530"/>
+		</Unit>
+		<Unit filename="C:/Users/thors/Documents/GitHub/COP3530-Project3/Project3COP3530/CMakeLists.txt">
+>>>>>>> parent of e5fdbea (4tyui)
 			<Option virtualFolder="CMake Files\"/>
 		</Unit>
 	</Project>

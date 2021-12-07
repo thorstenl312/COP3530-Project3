@@ -116,7 +116,7 @@ int main()
         charityData = readCSV(inFile);
     }
 
-    for (int i = 1; i < charityData.size(); i++)
+    for (int i = 0; i < charityData.size(); i++)
     {
         Charity a;
         for (int j = 0; j < charityData[i].size(); j++)
@@ -137,12 +137,19 @@ int main()
                 a.Subcategory = charityData[i][j];
             }
         }
+<<<<<<< HEAD
         charities.push_back(a);
     }
     for (int i = 0; i < charities.size(); i++) {
         weightRandomizer(charities[i], charities);
 
     }
+=======
+
+        charities.push_back(a);
+    }
+    
+>>>>>>> parent of e5fdbea (4tyui)
     return 0;
 
 }
