@@ -1,7 +1,9 @@
 file(REMOVE_RECURSE
-  "CMakeFiles/Project3COP3530.dir/main.cpp.o"
-  "Project3COP3530"
+  "CMakeFiles/Project3COP3530.dir/main.cpp.obj"
+  "Project3COP3530.exe"
+  "Project3COP3530.exe.manifest"
   "Project3COP3530.pdb"
+  "libProject3COP3530.dll.a"
 )
 
 # Per-language clean rules from dependency scanning.

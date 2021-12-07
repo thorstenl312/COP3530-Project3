@@ -2,7 +2,11 @@
 #include <fstream>
 #include <sstream>
 #include <vector>
+<<<<<<< HEAD
 
+=======
+//asdfghjk Hi MAITHI
+>>>>>>> 7e039cbe85670ecd5f08979b6f37c96f9e891bf6
 using namespace std;
 
 class Charity {
