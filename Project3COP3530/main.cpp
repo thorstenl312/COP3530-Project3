@@ -108,7 +108,7 @@ int main()
         charityData = readCSV(inFile);
     }
 
-    for (int i = 0; i < charityData.size(); i++)
+    for (int i = 1; i < charityData.size(); i++)
     {
         Charity a;
         for (int j = 0; j < charityData[i].size(); j++)
@@ -130,9 +130,10 @@ int main()
             }
         }
 
+        //cout << a.State << endl;
         charities.push_back(a);
     }
-    
+
     return 0;
 
 }
