@@ -3,11 +3,12 @@
 #include <sstream>
 #include <vector>
 #include <stdlib.h>
-#include <list>
+#include <set>
+#include <queue>
 using namespace std;
 
 int numberOfCharities = 8409; //Zoe said "Fix later"
-
+int numberOfEdges = 0;
 class Charity {
 private:
 
@@ -32,6 +33,7 @@ public:
     string AScore;
     string Subcategory;
     int index;
+    int numberOfConnections;
     Node* head;
 
     Charity(){
@@ -41,6 +43,7 @@ public:
         State = "empty";
         AScore = "empty";
         Subcategory = "empty";
+        numberOfConnections = 0;
     };
 
 };
@@ -107,7 +110,7 @@ vector<vector<string>> readCSV(ifstream &in) {
     return table;
 }
 void weightRandomizer(Charity a, vector<Charity>& v){
-    int edges = 1;
+    int edges = 2;
     for(int i = 0; i < edges; i++) {
         Charity::Node* b = new Charity::Node;
         int randomCharity = rand() % numberOfCharities;
@@ -115,15 +118,16 @@ void weightRandomizer(Charity a, vector<Charity>& v){
         //add into the first while adding into the other
         b->charnode = &v[randomCharity];
         b->weight = randomWeight;
+        b->next = nullptr;
         Charity::Node* temp = a.head;
         bool found = false;
-        if(v[a.index].head == nullptr){
-            v[a.index].head = b;
+        if(a.head == nullptr){
+            a.head = b;
             found = true;
         }
         else{
             while(temp->next != nullptr) {
-                if (temp->charnode->Name == v[randomCharity].Name || a.Name == v[randomCharity].Name){
+                if (temp->charnode->Name == v[randomCharity].Name || temp->charnode->Name == a.Name){
                     found = true;
                     break;
                 }
@@ -137,6 +141,7 @@ void weightRandomizer(Charity a, vector<Charity>& v){
         //add into the first while adding into the other
         c->charnode = &a;
         c->weight = randomWeight;
+        c->next = nullptr;
         found = false;
         temp = v[randomCharity].head;
         if(temp == nullptr){
@@ -145,7 +150,7 @@ void weightRandomizer(Charity a, vector<Charity>& v){
         }
         else{
             while(temp->next != nullptr) {
-                if (temp->charnode->Name == v[randomCharity].Name){
+                if (temp->charnode->Name == v[randomCharity].Name || temp->charnode->Name == a.Name){
                     found = true;
                     break;
                 }
@@ -158,7 +163,6 @@ void weightRandomizer(Charity a, vector<Charity>& v){
 
     }
 }
-
 void BellmanFord(Charity src, vector<Charity>& graph) {
     int dist[numberOfCharities];
 
@@ -166,26 +170,75 @@ void BellmanFord(Charity src, vector<Charity>& graph) {
         dist[i] = INT_MAX;
     }
 
-    dist[src.index] = 0;
+    dist[src.index];
+}
+void dijkstra(vector<Charity>& v, int src){
+    /*int d[numberOfCharities];
+    int p[numberOfCharities];
+    for(int i = 0; i < numberOfCharities; i++){
+        d[i] = INT_MAX;
+        p[i] = -1
+    }
+    d[src] = 0;
+    set<int> s;
+    queue<int> q;
+    for(int i = 0; i < numberOfCharities; i++){
+        q.push(i);
+    }
+    while(!q.empty()){
 
-    for(int i = 0; i <= numberOfCharities - 1; i++) {
-        Charity::Node* temp = src.head;
-        while(temp->next != nullptr) {
-            int weight = temp->weight;
-            if(dist[graph[i].index] != INT_MAX && dist[graph[i].index] + weight < dist[temp->charnode->index]) {
-                dist[temp->charnode->index] = dist[graph[i].index] + weight;
+    }*/
+    set<int> s;
+    set<int> vs;
+    int d[numberOfCharities];
+    int p[numberOfCharities];
+    s.insert(src);
+    int min = INT_MAX;
+    int minIndex;
+    d[0] = 0;
+    for(int i = 1; i < numberOfCharities; i++){
+        vs.insert(i);
+    }
+    for(int i = 1; i < numberOfCharities; i++){
+        d[i] = -1;
+    }
+    Charity::Node* temp = v[src].head;
+    for(int i = 0; i < numberOfCharities; i++){
+        p[i] = src;
+        if(i < v[src].numberOfConnections && temp->weight != 0 && temp->weight < INT_MAX && d[temp->charnode->index] == -1){
+            d[temp->charnode->index] = temp->weight;
+            i--;
+        }
+        else if(d[i] == -1){
+            d[i] = INT_MAX;
+        }
+        temp = temp->next;
+    }
+    while(!vs.empty()){
+        for(auto iter = vs.begin(); iter != vs.end(); ++iter){
+            if(d[*iter] < min){
+                min = d[*iter];
+                minIndex = *iter;
             }
         }
+        s.insert(minIndex);
+        vs.erase(minIndex);
+        temp = v[minIndex].head;
+        for(int j = 0; j < v[minIndex].numberOfConnections; j++){
+            if(d[minIndex] + temp->weight < d[temp->charnode->index]){
+                d[temp->charnode->index] = d[minIndex] + temp->weight;
+                p[temp->charnode->index] = minIndex;
+            }
+            temp = temp->next;
+        }
+        min = INT_MAX;
     }
-
-    printf("Vertex  Distance from Source\n");
-    for(int i = 0; i < numberOfCharities; i++) {
-        printf("%d\t\t%d\nn", i, dist[i]);
+    vector<int> v1;
+    cout << endl;
+    for(int i = 0; i < numberOfCharities; i++){
+        v1.push_back(d[i]);
     }
-
 }
-
-
 int main()
 {
     vector<Charity> charities;
@@ -222,31 +275,18 @@ int main()
         }
         charities.push_back(a);
     }
-    for (int i = 0; i < charities.size(); i++) {
+    for(int i = 0; i < charities.size(); i++){
         weightRandomizer(charities[i], charities);
-        //cout << charities.at(i).index << " : " << charities.at(i).Name << endl;
-        //cout << charities.at(i).head->weight << endl;
-
-        if(charities[i].head == nullptr) {
-            cout << "true" << endl;
+    }
+    for (int i = 0; i < charities.size(); i++) {
+        Charity::Node* temp = charities[i].head;
+        cout << "Charity " << charities[i].Name << " connected to" << endl;
+        while(temp != nullptr){
+            cout << temp->weight << ":" << string(temp->charnode->Name) << " ";
+            temp = temp->next;
         }
-        else {
-            cout << "false" << endl;
-        }
+        cout << endl << endl;
     }
 
-    //BellmanFord(charities[0], charities);
-//    cout << charities.size() << endl;
-//    for (int i = 0; i < 2; i++) {
-//        Charity::Node* temp = new Charity::Node;
-//        temp = charities[i].head;
-//        while(temp != nullptr){
-//            cout << temp->weight << ":" << string(temp->charnode->Name) << " ";
-//            temp = temp->next;
-//        }
-//        cout << endl;
-//    }
-
     return 0;
-
 }
