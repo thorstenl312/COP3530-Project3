@@ -117,8 +117,8 @@ void weightRandomizer(Charity a, vector<Charity>& v){
         b->weight = randomWeight;
         Charity::Node* temp = a.head;
         bool found = false;
-        if(a.head == nullptr){
-            a.head = b;
+        if(v[a.index].head == nullptr){
+            v[a.index].head = b;
             found = true;
         }
         else{
@@ -168,10 +168,20 @@ void BellmanFord(Charity src, vector<Charity>& graph) {
 
     dist[src.index] = 0;
 
-//    for(int i = 0; i <= numberOfCharities - 1; i++) {
-//        Charity::Node* temp = src.head;
-//        while()
-//    }
+    for(int i = 0; i <= numberOfCharities - 1; i++) {
+        Charity::Node* temp = src.head;
+        while(temp->next != nullptr) {
+            int weight = temp->weight;
+            if(dist[graph[i].index] != INT_MAX && dist[graph[i].index] + weight < dist[temp->charnode->index]) {
+                dist[temp->charnode->index] = dist[graph[i].index] + weight;
+            }
+        }
+    }
+
+    printf("Vertex  Distance from Source\n");
+    for(int i = 0; i < numberOfCharities; i++) {
+        printf("%d\t\t%d\nn", i, dist[i]);
+    }
 
 }
 
@@ -214,10 +224,19 @@ int main()
     }
     for (int i = 0; i < charities.size(); i++) {
         weightRandomizer(charities[i], charities);
-        cout << charities.at(i).index << " : " << charities.at(i).Name << endl;
+        //cout << charities.at(i).index << " : " << charities.at(i).Name << endl;
+        //cout << charities.at(i).head->weight << endl;
 
+        if(charities[i].head == nullptr) {
+            cout << "true" << endl;
+        }
+        else {
+            cout << "false" << endl;
+        }
     }
-    cout << charities.size() << endl;
+
+    //BellmanFord(charities[0], charities);
+//    cout << charities.size() << endl;
 //    for (int i = 0; i < 2; i++) {
 //        Charity::Node* temp = new Charity::Node;
 //        temp = charities[i].head;
