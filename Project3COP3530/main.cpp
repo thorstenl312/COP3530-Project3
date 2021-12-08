@@ -106,7 +106,7 @@ vector<vector<string>> readCSV(ifstream &in) {
     return table;
 }
 void weightRandomizer(Charity a, vector<Charity>& v){
-    int edges = 5;
+    int edges = 1;
     for(int i = 0; i < edges; i++) {
         Charity::Node* b = new Charity::Node;
         int randomCharity = rand() % numberOfCharities;
@@ -195,15 +195,16 @@ int main()
     for (int i = 0; i < charities.size(); i++) {
         weightRandomizer(charities[i], charities);
     }
-    for (int i = 0; i < 2; i++) {
-        Charity::Node* temp = new Charity::Node;
-        temp = charities[i].head;
-        while(temp != nullptr){
-            cout << temp->weight << ":" << string(temp->charnode->Name) << " ";
-            temp = temp->next;
-        }
-        cout << endl;
-    }
+//    for (int i = 0; i < 2; i++) {
+//        Charity::Node* temp = new Charity::Node;
+//        temp = charities[i].head;
+//        while(temp != nullptr){
+//            cout << temp->weight << ":" << string(temp->charnode->Name) << " ";
+//            temp = temp->next;
+//        }
+//        cout << endl;
+//    }
+
     return 0;
 
 }
