@@ -116,32 +116,38 @@ void weightRandomizer(Charity a, vector<Charity>& v){
         b->weight = randomWeight;
         Charity::Node* temp = a.head;
         bool found = false;
-        if(temp == nullptr){
+        if(a.head == nullptr){
             a.head = b;
             found = true;
         }
         else{
             while(temp->next != nullptr) {
-                if (temp->charnode->Name == v[randomCharity].Name) found = true;
+                if (temp->charnode->Name == v[randomCharity].Name || a.Name == v[randomCharity].Name){
+                    found = true;
+                    break;
+                }
                 temp = temp->next;
             }
         }
         if(!found){
             temp->next = b;
         }
-        cout << a.head->charnode->Name << a.head->weight << endl;
         Charity::Node* c = new Charity::Node;
         //add into the first while adding into the other
         c->charnode = &a;
         c->weight = randomWeight;
         found = false;
+        temp = v[randomCharity].head;
         if(temp == nullptr){
-            a.head = b;
+            v[randomCharity] = a;
             found = true;
         }
         else{
             while(temp->next != nullptr) {
-                if (temp->charnode->Name == v[randomCharity].Name) found = true;
+                if (temp->charnode->Name == v[randomCharity].Name){
+                    found = true;
+                    break;
+                }
                 temp = temp->next;
             }
         }
@@ -189,10 +195,11 @@ int main()
     for (int i = 0; i < charities.size(); i++) {
         weightRandomizer(charities[i], charities);
     }
-    for (int i = 0; i < charities.size(); i++) {
-        Charity::Node* temp = charities[i].head;
+    for (int i = 0; i < 2; i++) {
+        Charity::Node* temp = new Charity::Node;
+        temp = charities[i].head;
         while(temp != nullptr){
-            cout << temp->weight << ":" << temp->charnode->Name << " ";
+            cout << temp->weight << ":" << string(temp->charnode->Name) << " ";
             temp = temp->next;
         }
         cout << endl;
