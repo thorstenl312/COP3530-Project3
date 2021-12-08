@@ -140,7 +140,7 @@ void weightRandomizer(Charity a, vector<Charity>& v){
         found = false;
         temp = v[randomCharity].head;
         if(temp == nullptr){
-            v[randomCharity] = a;
+            v[randomCharity].head = c;
             found = true;
         }
         else{
@@ -166,7 +166,13 @@ void BellmanFord(Charity src, vector<Charity>& graph) {
         dist[i] = INT_MAX;
     }
 
-    dist[src.index];
+    dist[src.index] = 0;
+
+//    for(int i = 0; i <= numberOfCharities - 1; i++) {
+//        Charity::Node* temp = src.head;
+//        while()
+//    }
+
 }
 
 
