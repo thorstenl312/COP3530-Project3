@@ -6,26 +6,26 @@
 #include <list>
 using namespace std;
 
-int numberOfCharities = 8000; //Zoe said "Fix later"
-struct Node{
-    Node* next;
-    int weight;
-    // Charity* charnode;
-    string charname;
+int numberOfCharities = 8409; //Zoe said "Fix later"
 
-    Node() {
-        next = nullptr;
-        weight = 0;
-    }
-    Node(int weight) {
-        this->weight = weight;
-    }
-};
 class Charity {
 private:
 
 public:
+    struct Node{
+        Node* next;
+        int weight;
+        Charity* charnode;
+        //string charname;
 
+        Node() {
+            next = nullptr;
+            weight = 0;
+        }
+        Node(int weight) {
+            this->weight = weight;
+        }
+    };
     string Name;
     string Category;
     string State;
@@ -106,56 +106,48 @@ vector<vector<string>> readCSV(ifstream &in) {
     return table;
 }
 void weightRandomizer(Charity a, vector<Charity>& v){
-    int edges = 100;
-//    for(int i = 0; i < edges; i++){
-//        int randomCharity = rand() % numberOfCharities;
-//        pair<Charity, float> p;
-//        p.first = v[randomCharity];
-//        p.second = rand() % 1000;
-//        a.adj.push_back(p);
-//        p.first = a;
-//        v[randomCharity].adj.push_back(p);
-//    }
-//
-    int count = 0;
+    int edges = 5;
     for(int i = 0; i < edges; i++) {
-        Node* b = new Node;
+        Charity::Node* b = new Charity::Node;
         int randomCharity = rand() % numberOfCharities;
         int randomWeight = rand() % 1000;
         //add into the first while adding into the other
-        cout << v[randomCharity].Name << endl;
-        b->charname = v[randomCharity].Name;
-        count++;
+        b->charnode = &v[randomCharity];
         b->weight = randomWeight;
-        cout << v[randomCharity].Name << endl;
-        if(a.head == nullptr) {
+        Charity::Node* temp = a.head;
+        bool found = false;
+        if(temp == nullptr){
             a.head = b;
+            found = true;
         }
-        else {
-            Node* temp = a.head;
-            b->next = temp;
-            a.head = b;
-
-//            b->next = a.head;
-//            a.head = b;
+        else{
+            while(temp->next != nullptr) {
+                if (temp->charnode->Name == v[randomCharity].Name) found = true;
+                temp = temp->next;
+            }
         }
-
-        Node* c = new Node;
+        if(!found){
+            temp->next = b;
+        }
+        cout << a.head->charnode->Name << a.head->weight << endl;
+        Charity::Node* c = new Charity::Node;
         //add into the first while adding into the other
-        c->charname = a.Name;
+        c->charnode = &a;
         c->weight = randomWeight;
-        if(v[randomCharity].head == nullptr) {
-            v[randomCharity].head = c;
+        found = false;
+        if(temp == nullptr){
+            a.head = b;
+            found = true;
         }
-        else {
-            Node* temp = v[randomCharity].head;
-            c->next = temp;
-            v[randomCharity].head = c;
-
-//           c->next = v[randomCharity].head;
-//            v[randomCharity].head = c;
+        else{
+            while(temp->next != nullptr) {
+                if (temp->charnode->Name == v[randomCharity].Name) found = true;
+                temp = temp->next;
+            }
         }
-
+        if(!found){
+            temp->next = c;
+        }
 
     }
 }
@@ -196,6 +188,14 @@ int main()
     }
     for (int i = 0; i < charities.size(); i++) {
         weightRandomizer(charities[i], charities);
+    }
+    for (int i = 0; i < charities.size(); i++) {
+        Charity::Node* temp = charities[i].head;
+        while(temp != nullptr){
+            cout << temp->weight << ":" << temp->charnode->Name << " ";
+            temp = temp->next;
+        }
+        cout << endl;
     }
     return 0;
 
