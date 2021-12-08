@@ -31,6 +31,7 @@ public:
     string State;
     string AScore;
     string Subcategory;
+    int index;
     Node* head;
 
     Charity(){
@@ -157,6 +158,18 @@ void weightRandomizer(Charity a, vector<Charity>& v){
 
     }
 }
+
+void BellmanFord(Charity src, vector<Charity>& graph) {
+    int dist[numberOfCharities];
+
+    for(int i = 0; i <= numberOfCharities; i++) {
+        dist[i] = INT_MAX;
+    }
+
+    dist[src.index];
+}
+
+
 int main()
 {
     vector<Charity> charities;
@@ -172,6 +185,7 @@ int main()
     for (int i = 1; i < charityData.size(); i++)
     {
         Charity a;
+        a.index = i;
         for (int j = 0; j < charityData[i].size(); j++)
         {
             if(j == 0) {
@@ -194,7 +208,10 @@ int main()
     }
     for (int i = 0; i < charities.size(); i++) {
         weightRandomizer(charities[i], charities);
+        cout << charities.at(i).index << " : " << charities.at(i).Name << endl;
+
     }
+    cout << charities.size() << endl;
 //    for (int i = 0; i < 2; i++) {
 //        Charity::Node* temp = new Charity::Node;
 //        temp = charities[i].head;
