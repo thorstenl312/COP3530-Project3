@@ -278,6 +278,23 @@ int main()
     for(int i = 0; i < charities.size(); i++){
         weightRandomizer(charities[i], charities);
     }
+
+    //    bool extraNodes = false;
+//    cout << "use 91591 random nodes? (type 1 for yes and 0 for no)" << endl;
+//    cin >> extraNodes;
+//    if (extraNodes)
+    {
+        for (int i = 0; i < 91591; i++) {
+            Charity newCharity;
+            Charity::Node *b = new Charity::Node;
+            int randomWeight = rand() % 1000;
+            b->weight = randomWeight;
+            newCharity.head = b;
+            charities.push_back(newCharity);
+        }
+    }
+
+
     for (int i = 0; i < charities.size(); i++) {
         Charity::Node* temp = charities[i].head;
         cout << "Charity " << charities[i].Name << " connected to" << endl;
