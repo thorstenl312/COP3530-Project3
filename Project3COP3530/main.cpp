@@ -7,6 +7,7 @@
 using namespace std;
 
 int numberOfCharities = 8409; //Zoe said "Fix later"
+// 100,000 - 8,409 = 91,591
 
 class Charity {
 private:
@@ -50,7 +51,6 @@ enum class CSVState {
     QuotedField,
     QuotedQuote
 };
-
 vector<string> readCSVRow(const string &row) {
     CSVState state = CSVState::UnquotedField;
     vector<string> fields {""};
@@ -154,7 +154,6 @@ void weightRandomizer(Charity a, vector<Charity>& v){
         if(!found){
             temp->next = c;
         }
-
     }
 }
 int main()
@@ -195,6 +194,22 @@ int main()
     for (int i = 0; i < charities.size(); i++) {
         weightRandomizer(charities[i], charities);
     }
+
+//    bool extraNodes = false;
+//    cout << "use 91591 random nodes? (type 1 for yes and 0 for no)" << endl;
+//    cin >> extraNodes;
+//    if (extraNodes)
+    {
+        for (int i = 0; i < 91591; i++) {
+            Charity newCharity;
+            Charity::Node *b = new Charity::Node;
+            int randomWeight = rand() % 1000;
+            b->weight = randomWeight;
+            newCharity.head = b;
+            charities.push_back(newCharity);
+        }
+    }
+
 //    for (int i = 0; i < 2; i++) {
 //        Charity::Node* temp = new Charity::Node;
 //        temp = charities[i].head;
@@ -204,7 +219,5 @@ int main()
 //        }
 //        cout << endl;
 //    }
-
     return 0;
-
 }
