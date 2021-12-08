@@ -9,6 +9,7 @@ using namespace std;
 
 int numberOfCharities = 8409; //Zoe said "Fix later"
 int numberOfEdges = 0;
+
 class Charity {
 private:
 
@@ -109,8 +110,8 @@ vector<vector<string>> readCSV(ifstream &in) {
     }
     return table;
 }
-void weightRandomizer(Charity a, vector<Charity>& v){
-    int edges = 2;
+void weightRandomizer(Charity& a, vector<Charity>& v){
+    int edges = 5;
     for(int i = 0; i < edges; i++) {
         Charity::Node* b = new Charity::Node;
         int randomCharity = rand() % numberOfCharities;
@@ -170,7 +171,24 @@ void BellmanFord(Charity src, vector<Charity>& graph) {
         dist[i] = INT_MAX;
     }
 
-    dist[src.index];
+    dist[src.index] = 0;
+
+    for(int i = 0; i <= 1; i++) {
+        Charity::Node* temp = src.head;
+        while(temp->next != nullptr) {
+            int weight = temp->weight;
+            if(dist[graph[i].index] != INT_MAX && dist[graph[i].index] + weight < dist[temp->charnode->index]) {
+                dist[temp->charnode->index] = dist[graph[i].index] + weight;
+                cout <<dist[graph[i].index] + weight << endl;
+            }
+        }
+    }
+
+    printf("Vertex  Distance from Source\n");
+    for(int i = 0; i < numberOfCharities; i++) {
+        printf("%d\t\t%d\nn", i, dist[i]);
+    }
+
 }
 void dijkstra(vector<Charity>& v, int src){
     /*int d[numberOfCharities];
@@ -277,7 +295,17 @@ int main()
     }
     for(int i = 0; i < charities.size(); i++){
         weightRandomizer(charities[i], charities);
+//        if(charities[i].head == nullptr) {
+//            cout << "true" << endl;
+//
+//        }
+//        else {
+//            cout << "false" << endl;
+//            cout << charities[i].head->weight << endl;
+//        }
     }
+    BellmanFord(charities[0], charities);
+
     for (int i = 0; i < charities.size(); i++) {
         Charity::Node* temp = charities[i].head;
         cout << "Charity " << charities[i].Name << " connected to" << endl;
