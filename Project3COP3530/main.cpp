@@ -12,7 +12,7 @@
 using namespace std;
 typedef std::chrono::high_resolution_clock Clock;
 
-int numberOfCharities = 8409;
+int numberOfCharities;
 int numberOfEdges = 0;
 
 class Charity {
@@ -397,6 +397,8 @@ int main()
     {
         cout << "You didn't enter \"1\" or \"0\" ;-;" << endl;
     }
+
+    numberOfCharities = charities.size();
 
 //    // Generate random weights and edges
     for(int i = 0; i < charities.size(); i++){
