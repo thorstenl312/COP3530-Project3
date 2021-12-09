@@ -173,11 +173,11 @@ void BellmanFord(Charity src, vector<Charity>& graph) {
 
     dist[src.index] = 0;
 
-    for(int i = 0; i < numberOfCharities-1; i++) {
-        for(int j = 0; j < numberOfCharities; j++) {
+    for(int i = 0; i < graph.size()-1; i++) {
+        for(int j = 0; j < graph.size(); j++) {
             int source = graph[j].index;
             Charity::Node* temp = graph[j].head;
-            while(temp->next != nullptr) {
+            while(temp != nullptr) {
                 int dest = temp->charnode->index;
                 int weight = temp->weight;
                 if(dist[source] != INT_MAX && dist[source] + weight < dist[dest]) {
@@ -298,15 +298,6 @@ int main()
     //BellmanFord(charities[0], charities);
     dijkstra(charities, 0);
     BellmanFord(charities[0], charities);
-//    for (int i = 0; i < charities.size(); i++) {
-//        Charity::Node* temp = charities[i].head;
-//        cout << "Charity " << charities[i].Name << " connected to" << endl;
-//        while(temp != nullptr){
-//            cout << temp->weight << ":" << string(temp->charnode->Name) << " ";
-//            temp = temp->next;
-//        }
-//        cout << endl << endl;
-//    }
 
     int colWidth = 20;
     int option = -1;
