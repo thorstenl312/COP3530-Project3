@@ -306,6 +306,7 @@ int main()
         weightRandomizer(charities[i], charities);
     }
 
+<<<<<<< Updated upstream
 //KOINDA NEEDA FIX THIS HERE OOP
 //    /****************** Add rest of random nodes to charity graph ******************/
 //    bool extraNodes = false;
@@ -322,6 +323,9 @@ int main()
 //            newCharity.head = b;
 //            charities.push_back(newCharity);
 
+=======
+    //CODE FOR TESTING CONNECTIONS
+>>>>>>> Stashed changes
 //    for(int i = 0 ; i < charities.size(); i++) {
 //        Charity::Node* temp = charities[i].head;
 //        cout << charities[i].index << " : ";
@@ -332,7 +336,11 @@ int main()
 //        cout << endl;
 //    }
 
-    BellmanFord(charities[0], charities);
+    //BellmanFord(charities[0], charities);
+    vector<int> test = dijkstra(charities, 0);
+    for(int i = 0; i < test.size(); i++) {
+        cout << test[i] << endl;
+    }
 
 //    for (int i = 0; i < charities.size(); i++) {
 //        Charity::Node* temp = charities[i].head;
