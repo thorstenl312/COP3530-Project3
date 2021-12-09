@@ -334,9 +334,9 @@ int main()
         charities.push_back(a);
     }
     // Generate random weights and edges
-    for(int i = 0; i < charities.size(); i++){
-        weightRandomizer(charities[i], charities);
-    }
+//    for(int i = 0; i < charities.size(); i++){
+//        weightRandomizer(charities[i], charities);
+//    }
 
     int colWidth = 20;
     int option = -1;
@@ -368,7 +368,9 @@ int main()
     uniform_int_distribution<std::mt19937::result_type> stateRNG(0,49);
 
 
+
     if (extraNodes == 1) {
+        vector<Charity> randoCharities;
         cout << "You've added 91591 randomly generated charities!" << endl;
         for (int i = 0; i < 91591; i++) {
             Charity newCharity;
@@ -377,14 +379,15 @@ int main()
             newCharity.AScore = to_string(scoreRNG(rng));
             newCharity.Subcategory = subCat[subCatRNG(rng)];
             newCharity.State = state[stateRNG(rng)];
-            newCharity.index = i-1;
-//            Charity::Node *b = new Charity::Node;
-//            int randomWeight = rand() % 1000;
-//            b->weight = randomWeight;
-//            b->next = nullptr;
-//            newCharity.head = b;
+            newCharity.index = i+8409;
             charities.push_back(newCharity);
+//            randoCharities.push_back(newCharity);
+//            weightRandomizer(randoCharities[i], randoCharities);
         }
+//        for (int j = 0; j < randoCharities.size(); j++)
+//        {
+//            charities.push_back(randoCharities[j]);
+//        }
     }
     else if (extraNodes == 0)
     {
@@ -396,9 +399,10 @@ int main()
     }
 
 //    // Generate random weights and edges
-//    for(int i = 0; i < charities.size(); i++){
-//        weightRandomizer(charities[i], charities);
-//    }
+    for(int i = 0; i < charities.size(); i++){
+        weightRandomizer(charities[i], charities);
+    }
+
 
     while(option != 0) {
         cout << setw(colWidth) << setfill('=') << " MENU " << setw(colWidth-6) << "=" << endl;
