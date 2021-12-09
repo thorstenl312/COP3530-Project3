@@ -9,6 +9,7 @@ using namespace std;
 
 int numberOfCharities = 8409; //Zoe said "Fix later"
 int numberOfEdges = 0;
+
 class Charity {
 private:
 
@@ -109,8 +110,8 @@ vector<vector<string>> readCSV(ifstream &in) {
     }
     return table;
 }
-void weightRandomizer(Charity a, vector<Charity>& v){
-    int edges = 2;
+void weightRandomizer(Charity& a, vector<Charity>& v){
+    int edges = 5;
     for(int i = 0; i < edges; i++) {
         Charity::Node* b = new Charity::Node;
         int randomCharity = rand() % numberOfCharities;
@@ -166,13 +167,37 @@ void weightRandomizer(Charity a, vector<Charity>& v){
 void BellmanFord(Charity src, vector<Charity>& graph) {
     int dist[numberOfCharities];
 
-    for(int i = 0; i <= numberOfCharities; i++) {
+    for(int i = 0; i < numberOfCharities; i++) {
         dist[i] = INT_MAX;
     }
 
-    dist[src.index];
+    dist[src.index] = 0;
+
+    for(int i = 0; i < numberOfCharities; i++) {
+        for(int j = 0; j < numberOfCharities; j++) {
+            int source = graph[i].index;
+            Charity::Node* temp = graph[i].head;
+            while(temp->next != nullptr) {
+                int dest = temp->charnode->index;
+                int weight = temp->weight;
+                if(dist[source] != INT_MAX && dist[source] + weight < dist[dest]) {
+                    dist[dest] = dist[source] + weight;
+                }
+                temp = temp->next;
+            }
+        }
+    }
+
+
+
+    printf("Vertex  Distance from Source\n");
+    for(int i = 0; i < numberOfCharities; i++) {
+        if(dist[i] != INT_MAX)
+            printf("%d\t\t%d\n", i, dist[i]);
+    }
+
 }
-void dijkstra(vector<Charity>& v, int src){
+vector<int> dijkstra(vector<Charity>& v, int src){
     /*int d[numberOfCharities];
     int p[numberOfCharities];
     for(int i = 0; i < numberOfCharities; i++){
@@ -205,6 +230,7 @@ void dijkstra(vector<Charity>& v, int src){
     Charity::Node* temp = v[src].head;
     for(int i = 0; i < numberOfCharities; i++){
         p[i] = src;
+        if(temp == nullptr) continue;
         if(i < v[src].numberOfConnections && temp->weight != 0 && temp->weight < INT_MAX && d[temp->charnode->index] == -1){
             d[temp->charnode->index] = temp->weight;
             i--;
@@ -238,6 +264,7 @@ void dijkstra(vector<Charity>& v, int src){
     for(int i = 0; i < numberOfCharities; i++){
         v1.push_back(d[i]);
     }
+    return v1;
 }
 int main()
 {
@@ -254,7 +281,7 @@ int main()
     for (int i = 1; i < charityData.size(); i++)
     {
         Charity a;
-        a.index = i;
+        a.index = i-1;
         for (int j = 0; j < charityData[i].size(); j++)
         {
             if(j == 0) {
@@ -279,74 +306,27 @@ int main()
         weightRandomizer(charities[i], charities);
     }
 
-    //KOINDA NEEDA FIX THIS HERE OOP
-//    /****************** Add rest of random nodes to charity graph ******************/
-//    bool extraNodes = false;
-//    cout << "use 91591 random nodes? (type 1 for yes and 0 for no)" << endl;
-//    cin >> extraNodes;
-//    if (extraNodes)
-//    {
-//        for (int i = 0; i < 91591; i++) {
-//            Charity newCharity;
-//            Charity::Node *b = new Charity::Node;
-//            int randomWeight = rand() % 1000;
-//            b->weight = randomWeight;
-//            b->next = nullptr;
-//            newCharity.head = b;
-//            charities.push_back(newCharity);
+//    for(int i = 0 ; i < charities.size(); i++) {
+//        Charity::Node* temp = charities[i].head;
+//        cout << charities[i].index << " : ";
+//        while(temp->next != nullptr) {
+//            cout << temp->charnode->Name << ", ";
+//            temp = temp->next;
 //        }
+//        cout << endl;
 //    }
 
+    BellmanFord(charities[0], charities);
 
-    for (int i = 0; i < charities.size(); i++) {
-        Charity::Node* temp = charities[i].head;
-        cout << "Charity " << charities[i].Name << " connected to" << endl;
-        while(temp != nullptr){
-            cout << temp->weight << ":" << string(temp->charnode->Name) << " ";
-            temp = temp->next;
-        }
-        cout << endl << endl;
-    }
-
-    int colWidth = 20;
-    int option = -1;
-    cout << setfill('=') << setw(5*colWidth) << "=" << endl;
-    cout << setfill(' ') << fixed << setw(colWidth*3.2) << "Welcome to Charity NaviGator2.0" << setw(colWidth*3.2) << setfill(' ') << fixed << endl;
-    cout << setfill('=') << setw(5*colWidth) << "=" << endl;
-    cout << "Welcome to Charity Navigator2.0! This program seeks to store charity data and provide answers" << endl;
-    cout << "to search queries and distance traversal problems regarding the charity data." << endl;//    cout << setfill(' ') << fixed;
-
-
-    while(option != 0) {
-        cout << setw(colWidth) << setfill('=') << " MENU " << setw(colWidth-6) << "=" << endl;
-        cout << "0. Exit\n1. Dijkstra's Algorithm\n2. Bellman-Ford's Algorithm\n3. etc." << endl;
-        cout << "Please Choose an option: " << endl;
-        cin >> option;
-
-        switch(option)
-        {
-            case 0:
-                cout << "Thanks for using Charity NaviGator2.0! See you later alligator!!" << endl;
-                break;
-;            case 1:
-                cout << "one" << endl;
-                // do dijkstra's algo
-                continue;
-            case 2:
-                cout << "two" << endl;
-                // do bellman-ford algo
-                continue;
-            case 3:
-                cout << "three" << endl;
-                // do smth else
-                continue;
-            default:
-                cout << "Please select a valid option!" << endl;
-                continue;
-        }
-
-    }
-
+//    for (int i = 0; i < charities.size(); i++) {
+//        Charity::Node* temp = charities[i].head;
+//        cout << "Charity " << charities[i].Name << " connected to" << endl;
+//        while(temp != nullptr){
+//            cout << temp->weight << ":" << string(temp->charnode->Name) << " ";
+//            temp = temp->next;
+//        }
+//        cout << endl << endl;
+//    }
 
     return 0;
 }
