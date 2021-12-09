@@ -197,74 +197,37 @@ void BellmanFord(Charity src, vector<Charity>& graph) {
     }
 
 }
-vector<int> dijkstra(vector<Charity>& v, int src){
-    /*int d[numberOfCharities];
-    int p[numberOfCharities];
+void dijkstra(vector<Charity>& v, int src){
+    int d[numberOfCharities];
+    bool s[numberOfCharities];
     for(int i = 0; i < numberOfCharities; i++){
         d[i] = INT_MAX;
-        p[i] = -1
+        s[i] = false;
     }
     d[src] = 0;
-    set<int> s;
-    queue<int> q;
-    for(int i = 0; i < numberOfCharities; i++){
-        q.push(i);
-    }
-    while(!q.empty()){
-
-    }*/
-    set<int> s;
-    set<int> vs;
-    int d[numberOfCharities];
-    int p[numberOfCharities];
-    s.insert(src);
-    int min = INT_MAX;
-    int minIndex;
-    d[0] = 0;
-    for(int i = 1; i < numberOfCharities; i++){
-        vs.insert(i);
-    }
-    for(int i = 1; i < numberOfCharities; i++){
-        d[i] = -1;
-    }
-    Charity::Node* temp = v[src].head;
-    for(int i = 0; i < numberOfCharities; i++){
-        p[i] = src;
-        if(temp == nullptr) continue;
-        if(i < v[src].numberOfConnections && temp->weight != 0 && temp->weight < INT_MAX && d[temp->charnode->index] == -1){
-            d[temp->charnode->index] = temp->weight;
-            i--;
-        }
-        else if(d[i] == -1){
-            d[i] = INT_MAX;
-        }
-        temp = temp->next;
-    }
-    while(!vs.empty()){
-        for(auto iter = vs.begin(); iter != vs.end(); ++iter){
-            if(d[*iter] < min){
-                min = d[*iter];
-                minIndex = *iter;
+    for(int i = 0; i < numberOfCharities - 1; i++){
+        int min = INT_MAX;
+        int min_index;
+        for(int j = 0; j < numberOfCharities; j++){
+            if(s[j] == false && d[j] <= min){
+                min = d[j];
+                min_index = j;
             }
         }
-        s.insert(minIndex);
-        vs.erase(minIndex);
-        temp = v[minIndex].head;
-        for(int j = 0; j < v[minIndex].numberOfConnections; j++){
-            if(d[minIndex] + temp->weight < d[temp->charnode->index]){
-                d[temp->charnode->index] = d[minIndex] + temp->weight;
-                p[temp->charnode->index] = minIndex;
+        s[min_index] = true;
+        Charity::Node* temp = v[min_index].head;
+        while(temp != nullptr){
+            if(!s[temp->charnode->index] && temp->weight && d[min_index] != INT_MAX && d[min_index] + temp->weight < d[temp->charnode->index]){
+                d[temp->charnode->index] = temp->weight + d[min_index];
             }
             temp = temp->next;
         }
-        min = INT_MAX;
     }
-    vector<int> v1;
-    cout << endl;
-    for(int i = 0; i < numberOfCharities; i++){
-        v1.push_back(d[i]);
+    printf("Vertex  Distance from Source\n");
+    for(int i = 0; i < numberOfCharities; i++) {
+        if(d[i] != INT_MAX)
+            printf("%d\t\t%d\n", i, d[i]);
     }
-    return v1;
 }
 int main()
 {
@@ -306,7 +269,6 @@ int main()
         weightRandomizer(charities[i], charities);
     }
 
-<<<<<<< Updated upstream
 //KOINDA NEEDA FIX THIS HERE OOP
 //    /****************** Add rest of random nodes to charity graph ******************/
 //    bool extraNodes = false;
@@ -323,9 +285,6 @@ int main()
 //            newCharity.head = b;
 //            charities.push_back(newCharity);
 
-=======
-    //CODE FOR TESTING CONNECTIONS
->>>>>>> Stashed changes
 //    for(int i = 0 ; i < charities.size(); i++) {
 //        Charity::Node* temp = charities[i].head;
 //        cout << charities[i].index << " : ";
@@ -337,11 +296,7 @@ int main()
 //    }
 
     //BellmanFord(charities[0], charities);
-    vector<int> test = dijkstra(charities, 0);
-    for(int i = 0; i < test.size(); i++) {
-        cout << test[i] << endl;
-    }
-
+    dijkstra(charities, 0);
 //    for (int i = 0; i < charities.size(); i++) {
 //        Charity::Node* temp = charities[i].head;
 //        cout << "Charity " << charities[i].Name << " connected to" << endl;
