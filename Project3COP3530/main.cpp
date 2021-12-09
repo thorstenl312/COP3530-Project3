@@ -165,7 +165,99 @@ void weightRandomizer(Charity& a, vector<Charity>& v){
 
     }
 }
-+
+void BellmanFord(int src, vector<Charity>& graph, int dest) {
+    int dist[numberOfCharities];
+    int p[numberOfCharities];
+    for(int i = 0; i < numberOfCharities; i++) {
+        dist[i] = INT_MAX;
+    }
+
+    dist[src] = 0;
+
+    for(int i = 0; i < numberOfCharities; i++) {
+        for(int j = 0; j < numberOfCharities; j++) {
+            int source = graph[j].index;
+            Charity::Node* temp = graph[j].head;
+            while(temp != nullptr) {
+                int dest = temp->charnode->index;
+                int weight = temp->weight;
+                if(dist[source] != INT_MAX && dist[source] + weight < dist[dest]) {
+                    dist[dest] = dist[source] + weight;
+                    p[dest] = source;
+                }
+                temp = temp->next;
+            }
+        }
+    }
+    stack<string> st;
+    int curr = dest;
+    st.push(graph[dest].Name);
+    st.push(graph[p[curr]].Name);
+    curr = p[curr];
+    while(src != curr){
+        st.push(graph[p[curr]].Name);
+        curr = p[curr];
+    }
+    cout << st.top();
+    st.pop();
+    while(!st.empty()){
+        cout << ", " << st.top();
+        st.pop();
+    }
+    cout << endl << endl;
+}
+void dijkstra(vector<Charity>& v, int src, int dest){
+    int d[numberOfCharities];
+    int p[numberOfCharities];
+    bool s[numberOfCharities];
+    for(int i = 0; i < numberOfCharities; i++){
+        d[i] = INT_MAX;
+        s[i] = false;
+        p[i] = -1;
+    }
+    d[src] = 0;
+    p[src] = src;
+    for(int i = 0; i < numberOfCharities - 1; i++){
+        int min = INT_MAX;
+        int min_index;
+        for(int j = 0; j < numberOfCharities; j++){
+            if(s[j] == false && d[j] <= min){
+                min = d[j];
+                min_index = j;
+            }
+        }
+        s[min_index] = true;
+        Charity::Node* temp = v[min_index].head;
+        while(temp != nullptr){
+            if(!s[temp->charnode->index] && temp->weight && d[min_index] != INT_MAX && d[min_index] + temp->weight < d[temp->charnode->index]){
+                d[temp->charnode->index] = temp->weight + d[min_index];
+                p[temp->charnode->index] = min_index;
+            }
+            temp = temp->next;
+        }
+    }
+    stack<string> st;
+    int curr = dest;
+    st.push(v[dest].Name);
+    st.push(v[p[curr]].Name);
+    curr = p[curr];
+    while(src != curr){
+        st.push(v[p[curr]].Name);
+        curr = p[curr];
+    }
+    cout << st.top();
+    st.pop();
+    while(!st.empty()){
+        cout << ", " << st.top();
+        st.pop();
+    }
+    cout << endl << endl;
+    /*printf("Vertex  Distance from Source\n");
+    for(int i = 0; i < numberOfCharities; i++) {
+        if(d[i] != INT_MAX)
+            printf("%d\t\t%d\n", i, d[i]);
+    }*/
+}
 int main()
 {
     vector<Charity> charities;
