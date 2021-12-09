@@ -166,7 +166,6 @@ void weightRandomizer(Charity& a, vector<Charity>& v){
 }
 void BellmanFord(int src, vector<Charity>& graph, int d) {
     int dist[numberOfCharities];
-    vector <int> paths[numberOfCharities];
 
     for(int i = 0; i < numberOfCharities; i++) {
         dist[i] = INT_MAX;
@@ -174,7 +173,7 @@ void BellmanFord(int src, vector<Charity>& graph, int d) {
 
     dist[src] = 0;
 
-    for(int i = 0; i < numberOfCharities; i++) {
+    for(int i = 0; i < numberOfCharities -1; i++) {
         for(int j = 0; j < numberOfCharities; j++) {
             int source = graph[j].index;
             Charity::Node* temp = graph[j].head;
@@ -190,27 +189,11 @@ void BellmanFord(int src, vector<Charity>& graph, int d) {
     }
 
 
-    stack<string> st;
-    int curr = d;
-    st.push(graph[d].Name);
-    st.push(graph[p[curr]].Name);
-    curr = p[curr];
-    while(src != curr){
-        st.push(v[p[curr]].Name);
-        curr = p[curr];
-    }
-    cout << st.top();
-    st.pop();
-    while(!st.empty()){
-        cout << ", " << st.top();
-        st.pop();
-    }
-    cout << endl << endl;
-    /*printf("Vertex  Distance from Source\n");
-    for(int i = 0; i < numberOfCharities; i++) {
-        if(dist[i] != INT_MAX)
-            printf("%d\t\t%d\n", i, dist[i]);
-    }*/
+//    printf("Vertex  Distance from Source\n");
+//    for(int i = 0; i < numberOfCharities; i++) {
+//        if(dist[i] != INT_MAX)
+//            printf("%d\t\t%d\n", i, dist[i]);
+//    }
 
 }
 void dijkstra(vector<Charity>& v, int src, int dest){
@@ -259,11 +242,11 @@ void dijkstra(vector<Charity>& v, int src, int dest){
         st.pop();
     }
     cout << endl << endl;
-    /*printf("Vertex  Distance from Source\n");
-    for(int i = 0; i < numberOfCharities; i++) {
-        if(d[i] != INT_MAX)
-            printf("%d\t\t%d\n", i, d[i]);
-    }*/
+//    printf("Vertex  Distance from Source\n");
+//    for(int i = 0; i < numberOfCharities; i++) {
+//        if(d[i] != INT_MAX)
+//            printf("%d\t\t%d\n", i, d[i]);
+//    }
 }
 int main()
 {
@@ -349,6 +332,8 @@ int main()
     cout << "Welcome to Charity Navigator2.0! This program seeks to store charity data and provide answers" << endl;
     cout << "to search queries and distance traversal problems regarding the charity data." << endl;//    cout << setfill(' ') << fixed;
 
+    dijkstra(charities, 0, 1);
+    BellmanFord(0, charities, 1);
 
     while(option != 0) {
         cout << setw(colWidth) << setfill('=') << " MENU " << setw(colWidth-6) << "=" << endl;
@@ -372,7 +357,7 @@ int main()
                 continue;
             case 2:
                 cout << "two" << endl;
-                BellmanFord(charities[0], charities);
+                BellmanFord(src, charities, final);
                 continue;
             case 3:
                 cout << "three" << endl;
