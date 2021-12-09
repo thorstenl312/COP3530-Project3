@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <iomanip>
 #include <stack>
+#include <algorithm>
 using namespace std;
 
 int numberOfCharities = 8409; //Zoe said "Fix later"
@@ -164,106 +165,7 @@ void weightRandomizer(Charity& a, vector<Charity>& v){
 
     }
 }
-void BellmanFord(Charity src, vector<Charity>& graph) {
-    int dist[numberOfCharities];
-
-    for(int i = 0; i < numberOfCharities; i++) {
-        dist[i] = INT_MAX;
-    }
-
-    dist[src.index] = 0;
-
-    for(int i = 0; i < numberOfCharities; i++) {
-        for(int j = 0; j < numberOfCharities; j++) {
-            int source = graph[i].index;
-            Charity::Node* temp = graph[i].head;
-            while(temp->next != nullptr) {
-                int dest = temp->charnode->index;
-                int weight = temp->weight;
-                if(dist[source] != INT_MAX && dist[source] + weight < dist[dest]) {
-                    dist[dest] = dist[source] + weight;
-                }
-                temp = temp->next;
-            }
-        }
-    }
-
-
-    stack<string> st;
-    int curr = dest;
-    st.push(v[dest].Name);
-    st.push(v[p[curr]].Name);
-    curr = p[curr];
-    while(src != curr){
-        st.push(v[p[curr]].Name);
-        curr = p[curr];
-    }
-    cout << st.top();
-    st.pop();
-    while(!st.empty()){
-        cout << ", " << st.top();
-        st.pop();
-    }
-    cout << endl << endl;
-    /*printf("Vertex  Distance from Source\n");
-    for(int i = 0; i < numberOfCharities; i++) {
-        if(dist[i] != INT_MAX)
-            printf("%d\t\t%d\n", i, dist[i]);
-    }*/
-
-}
-void dijkstra(vector<Charity>& v, int src, int dest){
-    int d[numberOfCharities];
-    int p[numberOfCharities];
-    bool s[numberOfCharities];
-    for(int i = 0; i < numberOfCharities; i++){
-        d[i] = INT_MAX;
-        s[i] = false;
-        p[i] = -1;
-    }
-    d[src] = 0;
-    p[src] = src;
-    for(int i = 0; i < numberOfCharities - 1; i++){
-        int min = INT_MAX;
-        int min_index;
-        for(int j = 0; j < numberOfCharities; j++){
-            if(s[j] == false && d[j] <= min){
-                min = d[j];
-                min_index = j;
-            }
-        }
-        s[min_index] = true;
-        Charity::Node* temp = v[min_index].head;
-        while(temp != nullptr){
-            if(!s[temp->charnode->index] && temp->weight && d[min_index] != INT_MAX && d[min_index] + temp->weight < d[temp->charnode->index]){
-                d[temp->charnode->index] = temp->weight + d[min_index];
-                p[temp->charnode->index] = min_index;
-            }
-            temp = temp->next;
-        }
-    }
-    stack<string> st;
-    int curr = dest;
-    st.push(v[dest].Name);
-    st.push(v[p[curr]].Name);
-    curr = p[curr];
-    while(src != curr){
-        st.push(v[p[curr]].Name);
-        curr = p[curr];
-    }
-    cout << st.top();
-    st.pop();
-    while(!st.empty()){
-        cout << ", " << st.top();
-        st.pop();
-    }
-    cout << endl << endl;
-    /*printf("Vertex  Distance from Source\n");
-    for(int i = 0; i < numberOfCharities; i++) {
-        if(d[i] != INT_MAX)
-            printf("%d\t\t%d\n", i, d[i]);
-    }*/
-}
++
 int main()
 {
     vector<Charity> charities;
@@ -371,12 +273,32 @@ int main()
                 continue;
             case 2:
                 cout << "two" << endl;
-                BellmanFord(charities[0], charities);
+                BellmanFord(0, charities, 8408);
                 continue;
-            case 3:
+            case 3:{
+                int minScore;
                 cout << "three" << endl;
-                // do smth else
-                continue;
+                cin >> minScore;
+                for (int i = 1; i < charities.size(); i++) {
+                    Charity a;
+                    if(stoi(charities[i].AScore) >= minScore){
+                        cout << charities[i].Name << endl;
+                    }
+                }
+                continue;}
+            case 4:{
+                string cat;
+                cout << "four" << endl;
+                cin >> cat;
+                for (int i = 1; i < charities.size(); i++) {
+                    Charity a;
+                    string category = a.Category;
+                    transform(category.begin(), category.end(), category.begin(), ::tolower);
+                    if (category.find(cat) != string::npos) {
+                        cout << charities[i].Name << endl;
+                    }
+                }
+                continue;}
             default:
                 cout << "Please select a valid option!" << endl;
                 continue;
@@ -386,3 +308,4 @@ int main()
 
     return 0;
 }
+
