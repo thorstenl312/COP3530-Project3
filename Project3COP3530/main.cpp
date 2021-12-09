@@ -173,10 +173,10 @@ void BellmanFord(Charity src, vector<Charity>& graph) {
 
     dist[src.index] = 0;
 
-    for(int i = 0; i < numberOfCharities; i++) {
+    for(int i = 0; i < numberOfCharities-1; i++) {
         for(int j = 0; j < numberOfCharities; j++) {
-            int source = graph[i].index;
-            Charity::Node* temp = graph[i].head;
+            int source = graph[j].index;
+            Charity::Node* temp = graph[j].head;
             while(temp->next != nullptr) {
                 int dest = temp->charnode->index;
                 int weight = temp->weight;
@@ -198,70 +198,35 @@ void BellmanFord(Charity src, vector<Charity>& graph) {
 
 }
 void dijkstra(vector<Charity>& v, int src){
-    /*int d[numberOfCharities];
-    int p[numberOfCharities];
+    int d[numberOfCharities];
+    bool s[numberOfCharities];
     for(int i = 0; i < numberOfCharities; i++){
         d[i] = INT_MAX;
-        p[i] = -1
+        s[i] = false;
     }
     d[src] = 0;
-    set<int> s;
-    queue<int> q;
-    for(int i = 0; i < numberOfCharities; i++){
-        q.push(i);
-    }
-    while(!q.empty()){
-
-    }*/
-    set<int> s;
-    set<int> vs;
-    int d[numberOfCharities];
-    int p[numberOfCharities];
-    s.insert(src);
-    int min = INT_MAX;
-    int minIndex;
-    d[0] = 0;
-    for(int i = 1; i < numberOfCharities; i++){
-        vs.insert(i);
-    }
-    for(int i = 1; i < numberOfCharities; i++){
-        d[i] = -1;
-    }
-    Charity::Node* temp = v[src].head;
-    for(int i = 0; i < numberOfCharities; i++){
-        p[i] = src;
-        if(i < v[src].numberOfConnections && temp->weight != 0 && temp->weight < INT_MAX && d[temp->charnode->index] == -1){
-            d[temp->charnode->index] = temp->weight;
-            i--;
-        }
-        else if(d[i] == -1){
-            d[i] = INT_MAX;
-        }
-        temp = temp->next;
-    }
-    while(!vs.empty()){
-        for(auto iter = vs.begin(); iter != vs.end(); ++iter){
-            if(d[*iter] < min){
-                min = d[*iter];
-                minIndex = *iter;
+    for(int i = 0; i < numberOfCharities - 1; i++){
+        int min = INT_MAX;
+        int min_index;
+        for(int j = 0; j < numberOfCharities; j++){
+            if(s[j] == false && d[j] <= min){
+                min = d[j];
+                min_index = j;
             }
         }
-        s.insert(minIndex);
-        vs.erase(minIndex);
-        temp = v[minIndex].head;
-        for(int j = 0; j < v[minIndex].numberOfConnections; j++){
-            if(d[minIndex] + temp->weight < d[temp->charnode->index]){
-                d[temp->charnode->index] = d[minIndex] + temp->weight;
-                p[temp->charnode->index] = minIndex;
+        s[min_index] = true;
+        Charity::Node* temp = v[min_index].head;
+        while(temp != nullptr){
+            if(!s[temp->charnode->index] && temp->weight && d[min_index] != INT_MAX && d[min_index] + temp->weight < d[temp->charnode->index]){
+                d[temp->charnode->index] = temp->weight + d[min_index];
             }
             temp = temp->next;
         }
-        min = INT_MAX;
     }
-    vector<int> v1;
-    cout << endl;
-    for(int i = 0; i < numberOfCharities; i++){
-        v1.push_back(d[i]);
+    printf("Vertex  Distance from Source\n");
+    for(int i = 0; i < numberOfCharities; i++) {
+        if(d[i] != INT_MAX)
+            printf("%d\t\t%d\n", i, d[i]);
     }
 }
 int main()
@@ -304,6 +269,22 @@ int main()
         weightRandomizer(charities[i], charities);
     }
 
+//KOINDA NEEDA FIX THIS HERE OOP
+//    /****************** Add rest of random nodes to charity graph ******************/
+//    bool extraNodes = false;
+//    cout << "use 91591 random nodes? (type 1 for yes and 0 for no)" << endl;
+//    cin >> extraNodes;
+//    if (extraNodes)
+//    {
+//        for (int i = 0; i < 91591; i++) {
+//            Charity newCharity;
+//            Charity::Node *b = new Charity::Node;
+//            int randomWeight = rand() % 1000;
+//            b->weight = randomWeight;
+//            b->next = nullptr;
+//            newCharity.head = b;
+//            charities.push_back(newCharity);
+
 //    for(int i = 0 ; i < charities.size(); i++) {
 //        Charity::Node* temp = charities[i].head;
 //        cout << charities[i].index << " : ";
@@ -314,8 +295,9 @@ int main()
 //        cout << endl;
 //    }
 
+    //BellmanFord(charities[0], charities);
+    dijkstra(charities, 0);
     BellmanFord(charities[0], charities);
-
 //    for (int i = 0; i < charities.size(); i++) {
 //        Charity::Node* temp = charities[i].head;
 //        cout << "Charity " << charities[i].Name << " connected to" << endl;
@@ -325,6 +307,45 @@ int main()
 //        }
 //        cout << endl << endl;
 //    }
+
+    int colWidth = 20;
+    int option = -1;
+    cout << setfill('=') << setw(5*colWidth) << "=" << endl;
+    cout << setfill(' ') << fixed << setw(colWidth*3.2) << "Welcome to Charity NaviGator2.0" << setw(colWidth*3.2) << setfill(' ') << fixed << endl;
+    cout << setfill('=') << setw(5*colWidth) << "=" << endl;
+    cout << "Welcome to Charity Navigator2.0! This program seeks to store charity data and provide answers" << endl;
+    cout << "to search queries and distance traversal problems regarding the charity data." << endl;//    cout << setfill(' ') << fixed;
+
+
+    while(option != 0) {
+        cout << setw(colWidth) << setfill('=') << " MENU " << setw(colWidth-6) << "=" << endl;
+        cout << "0. Exit\n1. Dijkstra's Algorithm\n2. Bellman-Ford's Algorithm\n3. etc." << endl;
+        cout << "Please Choose an option: " << endl;
+        cin >> option;
+
+        switch(option)
+        {
+            case 0:
+                cout << "Thanks for using Charity NaviGator2.0! See you later alligator!!" << endl;
+                break;
+                ;            case 1:
+                cout << "one" << endl;
+                // do dijkstra's algo
+                continue;
+            case 2:
+                cout << "two" << endl;
+                // do bellman-ford algo
+                continue;
+            case 3:
+                cout << "three" << endl;
+                // do smth else
+                continue;
+            default:
+                cout << "Please select a valid option!" << endl;
+                continue;
+        }
+
+    }
 
     return 0;
 }
