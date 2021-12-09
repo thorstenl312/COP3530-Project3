@@ -345,9 +345,8 @@ int main()
     /****************** Add rest of random nodes to charity graph ******************/
     int extraNodes = false;
     cout << endl;
-    cout << "Insert randomly generated charities to add to 100,000 charities? (Type \"1\" for \"yes\" and \"0\" for \"no\")" << endl;
+    cout << "Insert randomly generated charities to add to 100,000 charities? (Type \"1\" for \"yes\" and \"0\" for \"no\"): ";
     cin >> extraNodes;
-    int random = -1;
     string tempName = "A";
     string cat[9] = {"Animals", "Education", "Human Services", "International", "Arts, Culture, Humanities", "Health", "Religion", "Research and Public Policy", "Community Development"};
     string subCat[37] = {"Adult Education Programs and Services","Advocacy and Education","Animal Rights, Welfare, and Services","Botanical Gardens, Parks, and Nature Centers","Children's and Family Services",
@@ -393,7 +392,8 @@ int main()
 
     while(option != 0) {
         cout << setw(colWidth) << setfill('=') << " MENU " << setw(colWidth-6) << "=" << endl;
-        cout << "0. Exit\n1. Dijkstra's Algorithm\n2. Bellman-Ford's Algorithm\n3. Return charities with greater than minimum score\n4. Return charities of same category\n5. Show List of Charities\n6. Search for specific charity" << endl;        cout << "Please Choose an option: " << endl;
+        cout << "0. Exit\n1. Show List of Charities\n2. Search for specific charity\n3. Return charities with greater than minimum score\n4. Return charities in user-chosen category\n5. Return charities in user-chosen state\n6. Dijkstra's Algorithm\n7. Bellman-Ford's Algorithm" << endl;
+        cout << "Please Choose an option: " << endl;
         cin >> option;
 
         switch(option)
@@ -402,42 +402,24 @@ int main()
                 cout << "Thanks for using Charity NaviGator2.0! See you later alligator!!" << endl;
                 break;
             case 1: {
-                string srcName, finalName;
-                int srcIndex, finalIndex;
-                cout << "You selected \"1. Dijkstra's Algorithm\"" << endl;
-                cout << "This will find a list of the closest charities between two different charities in terms of distance." << endl;
-                cout << "Insert name of one charity: ";
-                cin.ignore();
-                getline(cin, srcName);
-                cout << "Insert name of one charity: ";
-                getline(cin, finalName);
-                if (srcIndex != -1 && finalIndex != -1) {
-                    srcIndex = ReturnIndexFromName(charities, srcName);
-                    finalIndex = ReturnIndexFromName(charities, finalName);
-                    dijkstra(charities, srcIndex, finalIndex);
-                }
-                else
-                    cout << "Please enter valid charity names. Observe our list of charities for options (menu option \"5\")." << endl;
+                cout << "You selected \"1. Show List of Charities\"" << endl;
+                PrintCharities(charities);
                 continue;
             }
             case 2: {
-                string srcName, finalName;
-                int srcIndex, finalIndex;
-                cout << "You selected \"2. Bellman-Ford's Algorithm\"" << endl;
-                cout
-                        << "This will find a list of the closest charities between two different charities in terms of distance."
-                        << endl;
-                cout << "Insert name of one charity: ";
+                string charityName;
+                int numId;
+                cout << "You selected \"2. Search for specific charity\"" << endl;
+                cout << "Enter the name of a specific charity: ";
                 cin.ignore();
-                getline(cin, srcName);
-                cout << "Insert name of one charity: ";
-                getline(cin, finalName);
-                if (srcIndex != -1 && finalIndex != -1) {
-                    srcIndex = ReturnIndexFromName(charities, srcName);
-                    finalIndex = ReturnIndexFromName(charities, finalName);
-                    BellmanFord(srcIndex, charities, finalIndex);
-                } else
-                    cout << "Please enter valid charity names. Observe our list of charities for options (menu option \"5\")." << endl;
+                getline(cin, charityName);
+                cout << charityName << endl;
+                numId = ReturnIndexFromName(charities, charityName);
+                if (numId != -1) {
+                    PrintCharityIndex(charities, numId);
+                }
+                else
+                    cout << "Please enter a valid charity name. Observe our list of charities for options (menu option \"1\")." << endl;
                 continue;
             }
             case 3:{
@@ -459,7 +441,7 @@ int main()
             }
             case 4:{
                 string cat;
-                cout << "You selected \"4. Return charities of same category\"" << endl;
+                cout << "You selected \"4. Return charities from user-chosen category\"" << endl;
                 cout << "Enter charity category: ";
                 cin.ignore();
                 getline(cin, cat);
@@ -474,25 +456,59 @@ int main()
                 }
                 continue;
             }
-            case 5: {
-                cout << "You selected \"5. Show List of Charities\"" << endl;
-                PrintCharities(charities);
+            case 5:{
+                string state;
+                transform(state.begin(), state.end(), state.begin(), ::tolower);
+                cout << "You selected \"5. Return charities from user-chosen state\"" << endl;
+                cout << "Enter charity state: ";
+                cin >> state;
+                transform(state.begin(), state.end(), state.begin(), ::tolower);
+                for (int i = 0; i < charities.size(); i++) {
+                    string st = charities[i].State;
+                    transform(st.begin(), st.end(), st.begin(), ::tolower);
+                    if(state.find(st) != string::npos){
+                        cout << charities[i].Name << endl;
+                    }
+                }
                 continue;
             }
             case 6: {
-                string charityName;
-                int numId;
-                cout << "You selected \"6. Search for specific charity\"" << endl;
-                cout << "Enter the name of a specific charity: ";
+                string srcName, finalName;
+                int srcIndex, finalIndex;
+                cout << "You selected \"6. Dijkstra's Algorithm\"" << endl;
+                cout << "This will find a list of the closest charities between two different charities in terms of distance." << endl;
+                cout << "Insert name of one charity: ";
                 cin.ignore();
-                getline(cin, charityName);
-                cout << charityName << endl;
-                numId = ReturnIndexFromName(charities, charityName);
-                if (numId != -1) {
-                    PrintCharityIndex(charities, numId);
+                getline(cin, srcName);
+                cout << "Insert name of one charity: ";
+                getline(cin, finalName);
+                if (srcIndex != -1 && finalIndex != -1) {
+                    srcIndex = ReturnIndexFromName(charities, srcName);
+                    finalIndex = ReturnIndexFromName(charities, finalName);
+                    dijkstra(charities, srcIndex, finalIndex);
                 }
                 else
-                    cout << "Please enter a valid charity name. Observe our list of charities for options (menu option \"5\")." << endl;
+                    cout << "Please enter valid charity names. Observe our list of charities for options (menu option \"5\")." << endl;
+                continue;
+            }
+            case 7: {
+                string srcName, finalName;
+                int srcIndex, finalIndex;
+                cout << "You selected \"7. Bellman-Ford's Algorithm\"" << endl;
+                cout
+                        << "This will find a list of the closest charities between two different charities in terms of distance."
+                        << endl;
+                cout << "Insert name of one charity: ";
+                cin.ignore();
+                getline(cin, srcName);
+                cout << "Insert name of one charity: ";
+                getline(cin, finalName);
+                if (srcIndex != -1 && finalIndex != -1) {
+                    srcIndex = ReturnIndexFromName(charities, srcName);
+                    finalIndex = ReturnIndexFromName(charities, finalName);
+                    BellmanFord(srcIndex, charities, finalIndex);
+                } else
+                    cout << "Please enter valid charity names. Observe our list of charities for options (menu option \"5\")." << endl;
                 continue;
             }
             default:
