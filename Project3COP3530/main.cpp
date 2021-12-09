@@ -46,8 +46,26 @@ public:
         Subcategory = "empty";
         numberOfConnections = 0;
     };
-
+    void PrintCharityIndex(vector<Charity>& charities, int i);
+    void PrintCharities(vector<Charity>& charities);
 };
+
+void PrintCharityIndex(vector<Charity>& charities, int i)
+{
+    cout << "Name (Index Number): " << charities[i].Name << " (" << charities[i].index << ")" << endl;
+    cout << setw(5) << "Category: " << charities[i].Category << endl;
+    cout << setw(5) << "Subcategory: " << charities[i].Subcategory << endl;
+    cout << setw(5) << "State: " << charities[i].State << endl;
+    cout << setw(5) << "Score: " << charities[i].AScore << endl;
+}
+void PrintCharities(vector<Charity>& charities)
+{
+    for (int i = 0; i < charities.size(); i++)
+    {
+        PrintCharityIndex(charities, i);
+        cout << "------------------------------------------------------------------------" << endl;
+    }
+}
 
 // CSV Reading from stackoverflow user sastanin (https://stackoverflow.com/questions/1120140/how-can-i-read-and-parse-csv-files-in-c)
 enum class CSVState {
@@ -188,23 +206,6 @@ void BellmanFord(Charity src, vector<Charity>& graph) {
         }
     }
 
-
-    stack<string> st;
-    int curr = dest;
-    st.push(v[dest].Name);
-    st.push(v[p[curr]].Name);
-    curr = p[curr];
-    while(src != curr){
-        st.push(v[p[curr]].Name);
-        curr = p[curr];
-    }
-    cout << st.top();
-    st.pop();
-    while(!st.empty()){
-        cout << ", " << st.top();
-        st.pop();
-    }
-    cout << endl << endl;
     /*printf("Vertex  Distance from Source\n");
     for(int i = 0; i < numberOfCharities; i++) {
         if(dist[i] != INT_MAX)
@@ -306,19 +307,19 @@ int main()
 
 //KOINDA NEEDA FIX THIS HERE OOP
 //    /****************** Add rest of random nodes to charity graph ******************/
-//    bool extraNodes = false;
-//    cout << "use 91591 random nodes? (type 1 for yes and 0 for no)" << endl;
-//    cin >> extraNodes;
-//    if (extraNodes)
-//    {
-//        for (int i = 0; i < 91591; i++) {
-//            Charity newCharity;
-//            Charity::Node *b = new Charity::Node;
-//            int randomWeight = rand() % 1000;
-//            b->weight = randomWeight;
-//            b->next = nullptr;
-//            newCharity.head = b;
-//            charities.push_back(newCharity);
+    bool extraNodes = false;
+    cout << "use 91591 random nodes? (type 1 for yes and 0 for no)" << endl;
+    cin >> extraNodes;
+    if (extraNodes)
+    {
+        for (int i = 0; i < 91591; i++) {
+            Charity newCharity;
+            Charity::Node *b = new Charity::Node;
+            int randomWeight = rand() % 1000;
+            b->weight = randomWeight;
+            b->next = nullptr;
+            newCharity.head = b;
+            charities.push_back(newCharity);
 
 //    for(int i = 0 ; i < charities.size(); i++) {
 //        Charity::Node* temp = charities[i].head;
@@ -351,7 +352,7 @@ int main()
 
     while(option != 0) {
         cout << setw(colWidth) << setfill('=') << " MENU " << setw(colWidth-6) << "=" << endl;
-        cout << "0. Exit\n1. Dijkstra's Algorithm\n2. Bellman-Ford's Algorithm\n3. etc." << endl;
+        cout << "0. Exit\n1. Dijkstra's Algorithm\n2. Bellman-Ford's Algorithm\n3. Show List of Charities\n4. Search for specific charity" << endl;
         cout << "Please Choose an option: " << endl;
         cin >> option;
 
@@ -363,19 +364,27 @@ int main()
             case 1:
                 int src;
                 int final;
-                cout << "one" << endl;
+                cout << "You selected \"1. Dijkstra's Algorithm\"" << endl;
                 cout << "insert a starting and final charity index";
                 cin >> src;
                 cin >> final;
                 dijkstra(charities, src, final);
                 continue;
             case 2:
-                cout << "two" << endl;
+                cout << "You selected \"2. Bellman-Ford's Algorithm\"" << endl;
                 BellmanFord(charities[0], charities);
                 continue;
             case 3:
-                cout << "three" << endl;
+                cout << "You selected \"3. Show List of Charities\"" << endl;
+                PrintCharities(charities);
+                continue;
                 // do smth else
+            case 4:
+                int idNum;
+                cout << "You selected \"4. Search for specific charity\"" << endl;
+                cout << "Enter the ID-number of a specific charity: ";
+                cin >> idNum;
+                PrintCharityIndex(charities, idNum);
                 continue;
             default:
                 cout << "Please select a valid option!" << endl;
