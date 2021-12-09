@@ -207,7 +207,6 @@ void BellmanFord(int src, vector<Charity>& graph, int dest) {
             }
         }
     }
-<<<<<<< Updated upstream
     stack<string> st;
     int curr = dest;
     st.push(graph[dest].Name);
@@ -224,15 +223,6 @@ void BellmanFord(int src, vector<Charity>& graph, int dest) {
         st.pop();
     }
     cout << endl << endl;
-=======
-
-    /*printf("Vertex  Distance from Source\n");
-    for(int i = 0; i < numberOfCharities; i++) {
-        if(dist[i] != INT_MAX)
-            printf("%d\t\t%d\n", i, dist[i]);
-    }*/
-
->>>>>>> Stashed changes
 }
 void dijkstra(vector<Charity>& v, int src, int dest){
     int d[numberOfCharities];
@@ -286,6 +276,34 @@ void dijkstra(vector<Charity>& v, int src, int dest){
             printf("%d\t\t%d\n", i, d[i]);
     }*/
 }
+<<<<<<< Updated upstream
+    stack<string> st;
+    int curr = dest;
+    st.push(graph[dest].Name);
+    st.push(graph[p[curr]].Name);
+    curr = p[curr];
+    while(src != curr){
+        st.push(graph[p[curr]].Name);
+        curr = p[curr];
+    }
+    cout << st.top();
+    st.pop();
+    while(!st.empty()){
+        cout << ", " << st.top();
+        st.pop();
+    }
+    cout << endl << endl;
+=======
+
+    /*printf("Vertex  Distance from Source\n");
+    for(int i = 0; i < numberOfCharities; i++) {
+        if(dist[i] != INT_MAX)
+            printf("%d\t\t%d\n", i, dist[i]);
+    }*/
+
+>>>>>>> Stashed changes
+}
+
 int main()
 {
     vector<Charity> charities;
