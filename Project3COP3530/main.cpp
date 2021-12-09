@@ -165,7 +165,7 @@ void weightRandomizer(Charity& a, vector<Charity>& v){
 
     }
 }
-+
+
 int main()
 {
     vector<Charity> charities;
