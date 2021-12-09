@@ -208,7 +208,7 @@ void BellmanFord(int src, vector<Charity>& graph, int dest) {
 
     dist[src] = 0;
 
-    for(int i = 0; i < numberOfCharities; i++) {
+    for(int i = 0; i < numberOfCharities -1 ; i++) {
         for(int j = 0; j < numberOfCharities; j++) {
             int source = graph[j].index;
             Charity::Node* temp = graph[j].head;
@@ -405,9 +405,7 @@ int main()
                 string srcName, finalName;
                 int srcIndex, finalIndex;
                 cout << "You selected \"1. Dijkstra's Algorithm\"" << endl;
-                cout
-                        << "This will find a list of the closest charities between two different charities in terms of distance."
-                        << endl;
+                cout << "This will find a list of the closest charities between two different charities in terms of distance." << endl;
                 cout << "Insert name of one charity: ";
                 cin.ignore();
                 getline(cin, srcName);
@@ -422,10 +420,26 @@ int main()
                     cout << "Please enter valid charity names. Observe our list of charities for options (menu option \"5\")." << endl;
                 continue;
             }
-            case 2:
+            case 2: {
+                string srcName, finalName;
+                int srcIndex, finalIndex;
                 cout << "You selected \"2. Bellman-Ford's Algorithm\"" << endl;
-                BellmanFord(0, charities, 8408);
+                cout
+                        << "This will find a list of the closest charities between two different charities in terms of distance."
+                        << endl;
+                cout << "Insert name of one charity: ";
+                cin.ignore();
+                getline(cin, srcName);
+                cout << "Insert name of one charity: ";
+                getline(cin, finalName);
+                if (srcIndex != -1 && finalIndex != -1) {
+                    srcIndex = ReturnIndexFromName(charities, srcName);
+                    finalIndex = ReturnIndexFromName(charities, finalName);
+                    BellmanFord(srcIndex, charities, finalIndex);
+                } else
+                    cout << "Please enter valid charity names. Observe our list of charities for options (menu option \"5\")." << endl;
                 continue;
+            }
             case 3:{
                 int minScore;
                 cout << "You selected \"3. Return charities with greater than minimum score\"" << endl;
@@ -460,10 +474,11 @@ int main()
                 }
                 continue;
             }
-            case 5:
+            case 5: {
                 cout << "You selected \"5. Show List of Charities\"" << endl;
                 PrintCharities(charities);
                 continue;
+            }
             case 6: {
                 string charityName;
                 int numId;
