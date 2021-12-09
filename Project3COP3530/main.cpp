@@ -275,33 +275,15 @@ void dijkstra(vector<Charity>& v, int src, int dest){
         if(d[i] != INT_MAX)
             printf("%d\t\t%d\n", i, d[i]);
     }*/
-}
-<<<<<<< Updated upstream
-    stack<string> st;
-    int curr = dest;
-    st.push(graph[dest].Name);
-    st.push(graph[p[curr]].Name);
-    curr = p[curr];
-    while(src != curr){
-        st.push(graph[p[curr]].Name);
-        curr = p[curr];
-    }
-    cout << st.top();
-    st.pop();
-    while(!st.empty()){
-        cout << ", " << st.top();
-        st.pop();
-    }
-    cout << endl << endl;
-=======
 
-    /*printf("Vertex  Distance from Source\n");
-    for(int i = 0; i < numberOfCharities; i++) {
-        if(dist[i] != INT_MAX)
-            printf("%d\t\t%d\n", i, dist[i]);
-    }*/
 
->>>>>>> Stashed changes
+
+/*printf("Vertex  Distance from Source\n");
+for(int i = 0; i < numberOfCharities; i++) {
+    if(dist[i] != INT_MAX)
+        printf("%d\t\t%d\n", i, dist[i]);
+}*/
+
 }
 
 int main()
@@ -346,39 +328,21 @@ int main()
 
 //KOINDA NEEDA FIX THIS HERE OOP
 //    /****************** Add rest of random nodes to charity graph ******************/
-//    bool extraNodes = false;
-//    cout << "use 91591 random nodes? (type 1 for yes and 0 for no)" << endl;
-//    cin >> extraNodes;
-//    if (extraNodes)
-//    {
-//        for (int i = 0; i < 91591; i++) {
-//            Charity newCharity;
-//            Charity::Node *b = new Charity::Node;
-//            int randomWeight = rand() % 1000;
-//            b->weight = randomWeight;
-//            b->next = nullptr;
-//            newCharity.head = b;
-//            charities.push_back(newCharity);
+    bool extraNodes = false;
+    cout << "use 91591 random nodes? (type 1 for yes and 0 for no)" << endl;
+    cin >> extraNodes;
+    if (extraNodes) {
+        for (int i = 0; i < 91591; i++) {
+            Charity newCharity;
+            Charity::Node *b = new Charity::Node;
+            int randomWeight = rand() % 1000;
+            b->weight = randomWeight;
+            b->next = nullptr;
+            newCharity.head = b;
+            charities.push_back(newCharity);
+        }
+    }
 
-//    for(int i = 0 ; i < charities.size(); i++) {
-//        Charity::Node* temp = charities[i].head;
-//        cout << charities[i].index << " : ";
-//        while(temp->next != nullptr) {
-//            cout << temp->charnode->Name << ", ";
-//            temp = temp->next;
-//        }
-//        cout << endl;
-//    }
-
-//    for (int i = 0; i < charities.size(); i++) {
-//        Charity::Node* temp = charities[i].head;
-//        cout << "Charity " << charities[i].Name << " connected to" << endl;
-//        while(temp != nullptr){
-//            cout << temp->weight << ":" << string(temp->charnode->Name) << " ";
-//            temp = temp->next;
-//        }
-//        cout << endl << endl;
-//    }
 
     int colWidth = 20;
     int option = -1;
@@ -391,8 +355,7 @@ int main()
 
     while(option != 0) {
         cout << setw(colWidth) << setfill('=') << " MENU " << setw(colWidth-6) << "=" << endl;
-        cout << "0. Exit\n1. Dijkstra's Algorithm\n2. Bellman-Ford's Algorithm\n3. etc." << endl;
-        cout << "Please Choose an option: " << endl;
+        cout << "0. Exit\n1. Dijkstra's Algorithm\n2. Bellman-Ford's Algorithm\n3. Return charities with greater than minimum score\n4. Return charities of same category\n5. Show List of Charities\n6. Search for specific charity" << endl;        cout << "Please Choose an option: " << endl;
         cin >> option;
 
         switch(option)
@@ -410,13 +373,13 @@ int main()
                 dijkstra(charities, src, final);
                 continue;
             case 2:
-<<<<<<< Updated upstream
-                cout << "two" << endl;
+                cout << "You selected \"2. Bellman-Ford's Algorithm\"" << endl;
                 BellmanFord(0, charities, 8408);
                 continue;
             case 3:{
                 int minScore;
-                cout << "three" << endl;
+                cout << "You selected \"3. Return charities with greater than minimum score\"" << endl;
+                cout << "Enter desired minimum score: ";
                 cin >> minScore;
                 for (int i = 1; i < charities.size(); i++) {
                     Charity a;
@@ -438,24 +401,19 @@ int main()
                     }
                 }
                 continue;}
-=======
-                cout << "You selected \"2. Bellman-Ford's Algorithm\"" << endl;
-                BellmanFord(charities[0], charities);
-                continue;
-            case 3:
-                cout << "You selected \"3. Show List of Charities\"" << endl;
+            case 5:
+                cout << "You selected \"5. Show List of Charities\"" << endl;
                 PrintCharities(charities);
                 continue;
                 // do smth else
                 continue;
-            case 4:
+            case 6:
                 int idNum;
-                cout << "You selected \"4. Search for specific charity\"" << endl;
+                cout << "You selected \"6. Search for specific charity\"" << endl;
                 cout << "Enter the ID-number of a specific charity: ";
                 cin >> idNum;
                 PrintCharityIndex(charities, idNum);
                 continue;
->>>>>>> Stashed changes
             default:
                 cout << "Please select a valid option!" << endl;
                 continue;
@@ -465,4 +423,3 @@ int main()
 
     return 0;
 }
-
