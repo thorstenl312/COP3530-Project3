@@ -12,7 +12,7 @@
 using namespace std;
 typedef std::chrono::high_resolution_clock Clock;
 
-int numberOfCharities = 8409;
+int numberOfCharities;
 int numberOfEdges = 0;
 
 class Charity {
@@ -163,6 +163,7 @@ void weightRandomizer(Charity& a, vector<Charity>& v){
         if(a.head == nullptr){
             a.head = b;
             found = true;
+            a.numberOfConnections = 5;
         }
         else{
             while(temp->next != nullptr) {
@@ -226,6 +227,7 @@ void BellmanFord(int src, vector<Charity>& graph, int dest) {
             }
         }
     }
+
     stack<string> st;
     int curr = dest;
     st.push(graph[dest].Name);
@@ -347,10 +349,12 @@ int main()
     cout << "to search queries and distance traversal problems regarding the charity data." << endl;//    cout << setfill(' ') << fixed;
 
     /****************** Add rest of random nodes to charity graph ******************/
-    int extraNodes = false;
+    string extraNodesStr;
     cout << endl;
-    cout << "Insert randomly generated charities to add to 100,000 charities? (Type \"1\" for \"yes\" and \"0\" for \"no\"): ";
-    cin >> extraNodes;
+    cout << "Our database includes 8,409 charities. How many random charities would you like to add?" << endl;
+    cout << "Enter an positive integer value: ";
+    cin >> extraNodesStr;
+
     string tempName = "A";
     string cat[9] = {"Animals", "Education", "Human Services", "International", "Arts, Culture, Humanities", "Health", "Religion", "Research and Public Policy", "Community Development"};
     string subCat[37] = {"Adult Education Programs and Services","Advocacy and Education","Animal Rights, Welfare, and Services","Botanical Gardens, Parks, and Nature Centers","Children's and Family Services",
@@ -367,42 +371,37 @@ int main()
     uniform_int_distribution<std::mt19937::result_type> subCatRNG(0,36);
     uniform_int_distribution<std::mt19937::result_type> stateRNG(0,49);
 
-
-
-    if (extraNodes == 1) {
-        vector<Charity> randoCharities;
-        cout << "You've added 91591 randomly generated charities!" << endl;
-        for (int i = 0; i < 91591; i++) {
-            Charity newCharity;
-            newCharity.Name = "A" + to_string(i);
-            newCharity.Category = cat[catRNG(rng)];
-            newCharity.AScore = to_string(scoreRNG(rng));
-            newCharity.Subcategory = subCat[subCatRNG(rng)];
-            newCharity.State = state[stateRNG(rng)];
-            newCharity.index = i+8409;
-            charities.push_back(newCharity);
-//            randoCharities.push_back(newCharity);
-//            weightRandomizer(randoCharities[i], randoCharities);
+    try {
+        int extraNodes = stoi(extraNodesStr);
+        if (extraNodes > 0) {
+            vector<Charity> randoCharities;
+            cout << "You've added " << extraNodes << " randomly generated charities!" << endl;
+            for (int i = 0; i < extraNodes; i++) {
+                Charity newCharity;
+                newCharity.Name = "A" + to_string(i);
+                newCharity.Category = cat[catRNG(rng)];
+                newCharity.AScore = to_string(scoreRNG(rng));
+                newCharity.Subcategory = subCat[subCatRNG(rng)];
+                newCharity.State = state[stateRNG(rng)];
+                newCharity.index = i+8409;
+                charities.push_back(newCharity);
+            }
         }
-//        for (int j = 0; j < randoCharities.size(); j++)
-//        {
-//            charities.push_back(randoCharities[j]);
-//        }
+        else if (extraNodes == 0)
+        {
+            cout << "Oh, no extra charities then ;-;" << endl;
+        }
     }
-    else if (extraNodes == 0)
-    {
-        cout << "You've skipped out on the extra charities ;-;" << endl;
+    catch (exception e) {
+        cout << "Please enter a valid positive integer." << endl;
     }
-    else
-    {
-        cout << "You didn't enter \"1\" or \"0\" ;-;" << endl;
-    }
+
+    numberOfCharities = charities.size();
 
 //    // Generate random weights and edges
     for(int i = 0; i < charities.size(); i++){
         weightRandomizer(charities[i], charities);
     }
-
 
     while(option != 0) {
         cout << setw(colWidth) << setfill('=') << " MENU " << setw(colWidth-6) << "=" << endl;
@@ -495,13 +494,13 @@ int main()
                 getline(cin, srcName);
                 cout << "Insert name of one charity: ";
                 getline(cin, finalName);
+                srcIndex = ReturnIndexFromName(charities, srcName);
+                finalIndex = ReturnIndexFromName(charities, finalName);
                 if (srcIndex != -1 && finalIndex != -1) {
-                    srcIndex = ReturnIndexFromName(charities, srcName);
-                    finalIndex = ReturnIndexFromName(charities, finalName);
                     auto t1 = Clock::now();
                     dijkstra(charities, srcIndex, finalIndex);
                     auto t2 = Clock::now();
-                    std::cout << "Delta t2-t1 (1000): "
+                    std::cout << "Time taken: "
                               << duration_cast<std::chrono::nanoseconds>(t2 - t1).count()
                               << " nanoseconds" << '\n';
                 }
@@ -525,13 +524,13 @@ int main()
                 getline(cin, srcName);
                 cout << "Insert name of one charity: ";
                 getline(cin, finalName);
+                srcIndex = ReturnIndexFromName(charities, srcName);
+                finalIndex = ReturnIndexFromName(charities, finalName);
                 if (srcIndex != -1 && finalIndex != -1) {
-                    srcIndex = ReturnIndexFromName(charities, srcName);
-                    finalIndex = ReturnIndexFromName(charities, finalName);
                     auto t1 = Clock::now();
                     BellmanFord(srcIndex, charities, finalIndex);
                     auto t2 = Clock::now();
-                    std::cout << "Delta t2-t1 (1000): "
+                    std::cout << "Time taken: "
                               << duration_cast<std::chrono::nanoseconds>(t2 - t1).count()
                               << " nanoseconds" << '\n';
                 } else
