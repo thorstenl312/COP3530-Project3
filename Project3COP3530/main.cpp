@@ -269,6 +269,22 @@ int main()
         weightRandomizer(charities[i], charities);
     }
 
+//KOINDA NEEDA FIX THIS HERE OOP
+//    /****************** Add rest of random nodes to charity graph ******************/
+//    bool extraNodes = false;
+//    cout << "use 91591 random nodes? (type 1 for yes and 0 for no)" << endl;
+//    cin >> extraNodes;
+//    if (extraNodes)
+//    {
+//        for (int i = 0; i < 91591; i++) {
+//            Charity newCharity;
+//            Charity::Node *b = new Charity::Node;
+//            int randomWeight = rand() % 1000;
+//            b->weight = randomWeight;
+//            b->next = nullptr;
+//            newCharity.head = b;
+//            charities.push_back(newCharity);
+
 //    for(int i = 0 ; i < charities.size(); i++) {
 //        Charity::Node* temp = charities[i].head;
 //        cout << charities[i].index << " : ";
@@ -290,6 +306,45 @@ int main()
 //        }
 //        cout << endl << endl;
 //    }
+
+    int colWidth = 20;
+    int option = -1;
+    cout << setfill('=') << setw(5*colWidth) << "=" << endl;
+    cout << setfill(' ') << fixed << setw(colWidth*3.2) << "Welcome to Charity NaviGator2.0" << setw(colWidth*3.2) << setfill(' ') << fixed << endl;
+    cout << setfill('=') << setw(5*colWidth) << "=" << endl;
+    cout << "Welcome to Charity Navigator2.0! This program seeks to store charity data and provide answers" << endl;
+    cout << "to search queries and distance traversal problems regarding the charity data." << endl;//    cout << setfill(' ') << fixed;
+
+
+    while(option != 0) {
+        cout << setw(colWidth) << setfill('=') << " MENU " << setw(colWidth-6) << "=" << endl;
+        cout << "0. Exit\n1. Dijkstra's Algorithm\n2. Bellman-Ford's Algorithm\n3. etc." << endl;
+        cout << "Please Choose an option: " << endl;
+        cin >> option;
+
+        switch(option)
+        {
+            case 0:
+                cout << "Thanks for using Charity NaviGator2.0! See you later alligator!!" << endl;
+                break;
+                ;            case 1:
+                cout << "one" << endl;
+                // do dijkstra's algo
+                continue;
+            case 2:
+                cout << "two" << endl;
+                // do bellman-ford algo
+                continue;
+            case 3:
+                cout << "three" << endl;
+                // do smth else
+                continue;
+            default:
+                cout << "Please select a valid option!" << endl;
+                continue;
+        }
+
+    }
 
     return 0;
 }
