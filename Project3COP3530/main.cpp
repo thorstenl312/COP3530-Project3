@@ -275,15 +275,6 @@ void dijkstra(vector<Charity>& v, int src, int dest){
         if(d[i] != INT_MAX)
             printf("%d\t\t%d\n", i, d[i]);
     }*/
-
-
-
-/*printf("Vertex  Distance from Source\n");
-for(int i = 0; i < numberOfCharities; i++) {
-    if(dist[i] != INT_MAX)
-        printf("%d\t\t%d\n", i, dist[i]);
-}*/
-
 }
 
 int main()
@@ -328,21 +319,39 @@ int main()
 
 //KOINDA NEEDA FIX THIS HERE OOP
 //    /****************** Add rest of random nodes to charity graph ******************/
-    bool extraNodes = false;
-    cout << "use 91591 random nodes? (type 1 for yes and 0 for no)" << endl;
-    cin >> extraNodes;
-    if (extraNodes) {
-        for (int i = 0; i < 91591; i++) {
-            Charity newCharity;
-            Charity::Node *b = new Charity::Node;
-            int randomWeight = rand() % 1000;
-            b->weight = randomWeight;
-            b->next = nullptr;
-            newCharity.head = b;
-            charities.push_back(newCharity);
-        }
-    }
+//    bool extraNodes = false;
+//    cout << "use 91591 random nodes? (type 1 for yes and 0 for no)" << endl;
+//    cin >> extraNodes;
+//    if (extraNodes)
+//    {
+//        for (int i = 0; i < 91591; i++) {
+//            Charity newCharity;
+//            Charity::Node *b = new Charity::Node;
+//            int randomWeight = rand() % 1000;
+//            b->weight = randomWeight;
+//            b->next = nullptr;
+//            newCharity.head = b;
+//            charities.push_back(newCharity);
 
+//    for(int i = 0 ; i < charities.size(); i++) {
+//        Charity::Node* temp = charities[i].head;
+//        cout << charities[i].index << " : ";
+//        while(temp->next != nullptr) {
+//            cout << temp->charnode->Name << ", ";
+//            temp = temp->next;
+//        }
+//        cout << endl;
+//    }
+
+//    for (int i = 0; i < charities.size(); i++) {
+//        Charity::Node* temp = charities[i].head;
+//        cout << "Charity " << charities[i].Name << " connected to" << endl;
+//        while(temp != nullptr){
+//            cout << temp->weight << ":" << string(temp->charnode->Name) << " ";
+//            temp = temp->next;
+//        }
+//        cout << endl << endl;
+//    }
 
     int colWidth = 20;
     int option = -1;
@@ -355,7 +364,8 @@ int main()
 
     while(option != 0) {
         cout << setw(colWidth) << setfill('=') << " MENU " << setw(colWidth-6) << "=" << endl;
-        cout << "0. Exit\n1. Dijkstra's Algorithm\n2. Bellman-Ford's Algorithm\n3. Return charities with greater than minimum score\n4. Return charities of same category\n5. Show List of Charities\n6. Search for specific charity" << endl;        cout << "Please Choose an option: " << endl;
+        cout << "0. Exit\n1. Dijkstra's Algorithm\n2. Bellman-Ford's Algorithm\n3. etc." << endl;
+        cout << "Please Choose an option: " << endl;
         cin >> option;
 
         switch(option)
@@ -373,18 +383,18 @@ int main()
                 dijkstra(charities, src, final);
                 continue;
             case 2:
-                cout << "You selected \"2. Bellman-Ford's Algorithm\"" << endl;
+                cout << "two" << endl;
                 BellmanFord(0, charities, 8408);
                 continue;
             case 3:{
                 int minScore;
-                cout << "You selected \"3. Return charities with greater than minimum score\"" << endl;
-                cout << "Enter desired minimum score: ";
+                cout << "three" << endl;
                 cin >> minScore;
-                for (int i = 1; i < charities.size(); i++) {
-                    Charity a;
+                int count = 0;
+                for (int i = 0; i < charities.size(); i++) {
                     if(stoi(charities[i].AScore) >= minScore){
                         cout << charities[i].Name << endl;
+                        count++;
                     }
                 }
                 continue;}
@@ -392,24 +402,69 @@ int main()
                 string cat;
                 cout << "four" << endl;
                 cin >> cat;
-                for (int i = 1; i < charities.size(); i++) {
-                    Charity a;
-                    string category = a.Category;
+                transform(cat.begin(), cat.end(), cat.begin(), ::tolower);
+                for (int i = 0; i < charities.size(); i++) {
+                    string category = charities[i].Category;
                     transform(category.begin(), category.end(), category.begin(), ::tolower);
                     if (category.find(cat) != string::npos) {
                         cout << charities[i].Name << endl;
                     }
                 }
                 continue;}
-            case 5:
-                cout << "You selected \"5. Show List of Charities\"" << endl;
+            case 5:{
+                string name;
+                cout << "five" << endl;
+                cin >> name;
+                for (int i = 0; i < charities.size(); i++) {
+                    Charity a = charities[i];
+                    string chName = charities[i].Name;
+                    transform(chName.begin(), chName.end(), chName.begin(), ::tolower);
+                    if(a.Name == name){
+                        cout << "Name: " << a.Name << endl;
+                        cout << "Category: " << a.Category << endl;
+                        cout << "Sub Category: " << a.Subcategory << endl;
+                        cout << "AScore: " << a.AScore << endl;
+                        cout << "State: " << a.State << endl;
+                    }
+
+                }
+                continue;}
+            case 6:{
+                string state;
+                cout << "six" << endl;
+                cin >> state;
+                transform(state.begin(), state.end(), state.begin(), ::tolower);
+                for (int i = 0; i < charities.size(); i++) {
+                    string st = charities[i].State;
+                    transform(st.begin(), st.end(), st.begin(), ::tolower);
+                    if(state.find(st) != string::npos){
+                        cout << charities[i].Name << endl;
+                    }
+
+                }
+                continue;}
+            case 7:{
+                string cat;
+                cout << "seven" << endl;
+                cin >> cat;
+                transform(cat.begin(), cat.end(), cat.begin(), ::tolower);
+                for (int i = 0; i < charities.size(); i++) {
+                    string category = charities[i].Subcategory;
+                    transform(category.begin(), category.end(), category.begin(), ::tolower);
+                    if (category.find(cat) != string::npos) {
+                        cout << charities[i].Name << endl;
+                    }
+                }
+                continue;}
+            case 8:
+                cout << "You selected \"3. Show List of Charities\"" << endl;
                 PrintCharities(charities);
                 continue;
                 // do smth else
                 continue;
-            case 6:
+            case 9:
                 int idNum;
-                cout << "You selected \"6. Search for specific charity\"" << endl;
+                cout << "You selected \"4. Search for specific charity\"" << endl;
                 cout << "Enter the ID-number of a specific charity: ";
                 cin >> idNum;
                 PrintCharityIndex(charities, idNum);
