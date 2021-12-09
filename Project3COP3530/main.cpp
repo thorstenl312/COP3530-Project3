@@ -47,8 +47,26 @@ public:
         Subcategory = "empty";
         numberOfConnections = 0;
     };
-
+    void PrintCharityIndex(vector<Charity>& charities, int i);
+    void PrintCharities(vector<Charity>& charities);
 };
+
+void PrintCharityIndex(vector<Charity>& charities, int i)
+{
+    cout << "Name (Index Number): " << charities[i].Name << " (" << charities[i].index << "):" << endl;
+    cout << setw(5) << "Category: " << charities[i].Category << endl;
+    cout << setw(5) << "Subcategory: " << charities[i].Subcategory << endl;
+    cout << setw(5) << "State: " << charities[i].State << endl;
+    cout << setw(5) << "Score: " << charities[i].AScore << endl;
+}
+void PrintCharities(vector<Charity>& charities)
+{
+    for (int i = 0; i < charities.size(); i++)
+    {
+        PrintCharityIndex(charities, i);
+        cout << "------------------------------------------------------------------------" << endl;
+    }
+}
 
 // CSV Reading from stackoverflow user sastanin (https://stackoverflow.com/questions/1120140/how-can-i-read-and-parse-csv-files-in-c)
 enum class CSVState {
@@ -189,6 +207,7 @@ void BellmanFord(int src, vector<Charity>& graph, int dest) {
             }
         }
     }
+<<<<<<< Updated upstream
     stack<string> st;
     int curr = dest;
     st.push(graph[dest].Name);
@@ -205,6 +224,15 @@ void BellmanFord(int src, vector<Charity>& graph, int dest) {
         st.pop();
     }
     cout << endl << endl;
+=======
+
+    /*printf("Vertex  Distance from Source\n");
+    for(int i = 0; i < numberOfCharities; i++) {
+        if(dist[i] != INT_MAX)
+            printf("%d\t\t%d\n", i, dist[i]);
+    }*/
+
+>>>>>>> Stashed changes
 }
 void dijkstra(vector<Charity>& v, int src, int dest){
     int d[numberOfCharities];
@@ -357,13 +385,14 @@ int main()
             case 1:
                 int src;
                 int final;
-                cout << "one" << endl;
+                cout << "You selected \"1. Dijkstra's Algorithm\"" << endl;
                 cout << "insert a starting and final charity index";
                 cin >> src;
                 cin >> final;
                 dijkstra(charities, src, final);
                 continue;
             case 2:
+<<<<<<< Updated upstream
                 cout << "two" << endl;
                 BellmanFord(0, charities, 8408);
                 continue;
@@ -391,6 +420,24 @@ int main()
                     }
                 }
                 continue;}
+=======
+                cout << "You selected \"2. Bellman-Ford's Algorithm\"" << endl;
+                BellmanFord(charities[0], charities);
+                continue;
+            case 3:
+                cout << "You selected \"3. Show List of Charities\"" << endl;
+                PrintCharities(charities);
+                continue;
+                // do smth else
+                continue;
+            case 4:
+                int idNum;
+                cout << "You selected \"4. Search for specific charity\"" << endl;
+                cout << "Enter the ID-number of a specific charity: ";
+                cin >> idNum;
+                PrintCharityIndex(charities, idNum);
+                continue;
+>>>>>>> Stashed changes
             default:
                 cout << "Please select a valid option!" << endl;
                 continue;
