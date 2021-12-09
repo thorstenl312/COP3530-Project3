@@ -6,9 +6,13 @@
 #include <iomanip>
 #include <stack>
 #include <algorithm>
-using namespace std;
+#include <random>
+#include <chrono>
 
-int numberOfCharities = 8409; //Zoe said "Fix later"
+using namespace std;
+typedef std::chrono::high_resolution_clock Clock;
+
+int numberOfCharities = 8409;
 int numberOfEdges = 0;
 
 class Charity {
@@ -19,7 +23,6 @@ public:
         Node* next;
         int weight;
         Charity* charnode;
-        //string charname;
 
         Node() {
             next = nullptr;
@@ -49,11 +52,12 @@ public:
     };
     void PrintCharityIndex(vector<Charity>& charities, int i);
     void PrintCharities(vector<Charity>& charities);
+    int ReturnIndexFromName(vector<Charity>& charities, string charityName);
 };
 
 void PrintCharityIndex(vector<Charity>& charities, int i)
 {
-    cout << "Name (Index Number): " << charities[i].Name << " (" << charities[i].index << "):" << endl;
+    cout << "Name: " << charities[i].Name << endl;
     cout << setw(5) << "Category: " << charities[i].Category << endl;
     cout << setw(5) << "Subcategory: " << charities[i].Subcategory << endl;
     cout << setw(5) << "State: " << charities[i].State << endl;
@@ -68,13 +72,28 @@ void PrintCharities(vector<Charity>& charities)
     }
 }
 
+int ReturnIndexFromName(vector<Charity>& charities, string charityName)
+{
+    int index = -1;
+    transform(charityName.begin(), charityName.end(), charityName.begin(), ::tolower);
+    for (int i = 0; i < charities.size(); i++)
+    {
+        string charName = charities[i].Name;
+        transform(charName.begin(), charName.end(), charName.begin(), ::tolower);
+        if (charityName == charName)
+        {
+            index = i;
+        }
+    }
+    return index;
+}
+
 // CSV Reading from stackoverflow user sastanin (https://stackoverflow.com/questions/1120140/how-can-i-read-and-parse-csv-files-in-c)
 enum class CSVState {
     UnquotedField,
     QuotedField,
     QuotedQuote
 };
-
 vector<string> readCSVRow(const string &row) {
     CSVState state = CSVState::UnquotedField;
     vector<string> fields {""};
@@ -192,7 +211,7 @@ void BellmanFord(int src, vector<Charity>& graph, int dest) {
 
     dist[src] = 0;
 
-    for(int i = 0; i < numberOfCharities; i++) {
+    for(int i = 0; i < numberOfCharities -1 ; i++) {
         for(int j = 0; j < numberOfCharities; j++) {
             int source = graph[j].index;
             Charity::Node* temp = graph[j].head;
@@ -275,32 +294,7 @@ void dijkstra(vector<Charity>& v, int src, int dest){
         if(d[i] != INT_MAX)
             printf("%d\t\t%d\n", i, d[i]);
     }*/
-}
 
-    stack<string> st;
-    int curr = dest;
-    st.push(graph[dest].Name);
-    st.push(graph[p[curr]].Name);
-    curr = p[curr];
-    while(src != curr){
-        st.push(graph[p[curr]].Name);
-        curr = p[curr];
-    }
-    cout << st.top();
-    st.pop();
-    while(!st.empty()){
-        cout << ", " << st.top();
-        st.pop();
-    }
-    cout << endl << endl;
-
-    /*printf("Vertex  Distance from Source\n");
-    for(int i = 0; i < numberOfCharities; i++) {
-        if(dist[i] != INT_MAX)
-            printf("%d\t\t%d\n", i, dist[i]);
-    }*/
-
->>>>>>> Stashed changes
 }
 
 int main()
@@ -339,44 +333,9 @@ int main()
         }
         charities.push_back(a);
     }
-    for(int i = 0; i < charities.size(); i++){
-        weightRandomizer(charities[i], charities);
-    }
-
-//KOINDA NEEDA FIX THIS HERE OOP
-//    /****************** Add rest of random nodes to charity graph ******************/
-//    bool extraNodes = false;
-//    cout << "use 91591 random nodes? (type 1 for yes and 0 for no)" << endl;
-//    cin >> extraNodes;
-//    if (extraNodes)
-//    {
-//        for (int i = 0; i < 91591; i++) {
-//            Charity newCharity;
-//            Charity::Node *b = new Charity::Node;
-//            int randomWeight = rand() % 1000;
-//            b->weight = randomWeight;
-//            b->next = nullptr;
-//            newCharity.head = b;
-//            charities.push_back(newCharity);
-
-//    for(int i = 0 ; i < charities.size(); i++) {
-//        Charity::Node* temp = charities[i].head;
-//        cout << charities[i].index << " : ";
-//        while(temp->next != nullptr) {
-//            cout << temp->charnode->Name << ", ";
-//            temp = temp->next;
-//        }
-//        cout << endl;
-//    }
-
-//    for (int i = 0; i < charities.size(); i++) {
-//        Charity::Node* temp = charities[i].head;
-//        cout << "Charity " << charities[i].Name << " connected to" << endl;
-//        while(temp != nullptr){
-//            cout << temp->weight << ":" << string(temp->charnode->Name) << " ";
-//            temp = temp->next;
-//        }
-//        cout << endl << endl;
+    // Generate random weights and edges
+//    for(int i = 0; i < charities.size(); i++){
+//        weightRandomizer(charities[i], charities);
 //    }
 
     int colWidth = 20;
@@ -387,10 +346,67 @@ int main()
     cout << "Welcome to Charity Navigator2.0! This program seeks to store charity data and provide answers" << endl;
     cout << "to search queries and distance traversal problems regarding the charity data." << endl;//    cout << setfill(' ') << fixed;
 
+    /****************** Add rest of random nodes to charity graph ******************/
+    int extraNodes = false;
+    cout << endl;
+    cout << "Insert randomly generated charities to add to 100,000 charities? (Type \"1\" for \"yes\" and \"0\" for \"no\"): ";
+    cin >> extraNodes;
+    string tempName = "A";
+    string cat[9] = {"Animals", "Education", "Human Services", "International", "Arts, Culture, Humanities", "Health", "Religion", "Research and Public Policy", "Community Development"};
+    string subCat[37] = {"Adult Education Programs and Services","Advocacy and Education","Animal Rights, Welfare, and Services","Botanical Gardens, Parks, and Nature Centers","Children's and Family Services",
+                         "Community Foundations","Development and Relief Services","Diseases, Disorders, and Disciplines","Early Childhood Programs and Services","Education Policy and Reform","Environmental Protection and Conservation",
+                         "Food Banks, Food Pantries, and Food Distribution","Homeless Services","Housing and Neighborhood Development","Humanitarian Relief Supplies","International Peace, Security, and Affairs","Jewish Federations","Libraries, Historical Societies and Landmark Preservation","Medical Research",
+                         "Multipurpose Human Service Organizations","Museums","Non-Medical Science & Technology Research","Patient and Family Support","Performing Arts","Public Broadcasting and Media","Religious Activities","Religious Media and Broadcasting","Scholarship and Financial Support","Social and Public Policy Research",
+                         "Social Services","Special Education","Treatment and Prevention Services","United Ways","Wildlife Conservation","Youth Development, Shelter, and Crisis Services","Youth Education Programs and Services","Zoos and Aquariums"};
+    string state[50] = {"AL","AK","AZ","AR","CA","CO","CT","DE","FL","GA","HI","ID","IL","IN","IA","KS","KY","LA","ME","MD","MA","MI","MN","MS","MO","MT","NE","NV","NH","NJ","NM","NY","NC","ND","OH","OK","OR","PA","RI","SC","SD","TN","TX","UT","VT","VA","WA","WV","WI","WY"};
+
+    random_device dev;
+    mt19937 rng(dev());
+    uniform_int_distribution<std::mt19937::result_type> catRNG(0,8);
+    uniform_int_distribution<std::mt19937::result_type> scoreRNG(60,100);
+    uniform_int_distribution<std::mt19937::result_type> subCatRNG(0,36);
+    uniform_int_distribution<std::mt19937::result_type> stateRNG(0,49);
+
+
+
+    if (extraNodes == 1) {
+        vector<Charity> randoCharities;
+        cout << "You've added 91591 randomly generated charities!" << endl;
+        for (int i = 0; i < 91591; i++) {
+            Charity newCharity;
+            newCharity.Name = "A" + to_string(i);
+            newCharity.Category = cat[catRNG(rng)];
+            newCharity.AScore = to_string(scoreRNG(rng));
+            newCharity.Subcategory = subCat[subCatRNG(rng)];
+            newCharity.State = state[stateRNG(rng)];
+            newCharity.index = i+8409;
+            charities.push_back(newCharity);
+//            randoCharities.push_back(newCharity);
+//            weightRandomizer(randoCharities[i], randoCharities);
+        }
+//        for (int j = 0; j < randoCharities.size(); j++)
+//        {
+//            charities.push_back(randoCharities[j]);
+//        }
+    }
+    else if (extraNodes == 0)
+    {
+        cout << "You've skipped out on the extra charities ;-;" << endl;
+    }
+    else
+    {
+        cout << "You didn't enter \"1\" or \"0\" ;-;" << endl;
+    }
+
+//    // Generate random weights and edges
+    for(int i = 0; i < charities.size(); i++){
+        weightRandomizer(charities[i], charities);
+    }
+
 
     while(option != 0) {
         cout << setw(colWidth) << setfill('=') << " MENU " << setw(colWidth-6) << "=" << endl;
-        cout << "0. Exit\n1. Dijkstra's Algorithm\n2. Bellman-Ford's Algorithm\n3. etc." << endl;
+        cout << "0. Exit\n1. Show list of charities\n2. Search for specific charity\n3. Return charities with greater than minimum score\n4. Return charities in user-chosen category\n5. Return charities in user-chosen state\n6. Dijkstra's Algorithm\n7. Bellman-Ford's Algorithm" << endl;
         cout << "Please Choose an option: " << endl;
         cin >> option;
 
@@ -399,59 +415,129 @@ int main()
             case 0:
                 cout << "Thanks for using Charity NaviGator2.0! See you later alligator!!" << endl;
                 break;
-            case 1:
-                int src;
-                int final;
-                cout << "You selected \"1. Dijkstra's Algorithm\"" << endl;
-                cout << "insert a starting and final charity index";
-                cin >> src;
-                cin >> final;
-                dijkstra(charities, src, final);
-                continue;
-            case 2:
-                cout << "two" << endl;
-                BellmanFord(0, charities, 8408);
-                continue;
-            case 3:{
-                int minScore;
-                cout << "three" << endl;
-                cin >> minScore;
-                for (int i = 1; i < charities.size(); i++) {
-                    Charity a;
-                    if(stoi(charities[i].AScore) >= minScore){
-                        cout << charities[i].Name << endl;
-                    }
-                }
-                continue;}
-            case 4:{
-                string cat;
-                cout << "four" << endl;
-                cin >> cat;
-                for (int i = 1; i < charities.size(); i++) {
-                    Charity a;
-                    string category = a.Category;
-                    transform(category.begin(), category.end(), category.begin(), ::tolower);
-                    if (category.find(cat) != string::npos) {
-                        cout << charities[i].Name << endl;
-                    }
-                }
-                continue;}
-                cout << "You selected \"2. Bellman-Ford's Algorithm\"" << endl;
-                BellmanFord(charities[0], charities);
-                continue;
-            case 3:
-                cout << "You selected \"3. Show List of Charities\"" << endl;
+            case 1: {
+                cout << "You selected \"1. Show list of charities\"" << endl;
                 PrintCharities(charities);
                 continue;
-                // do smth else
+            }
+            case 2: {
+                string charityName;
+                int numId;
+                cout << "You selected \"2. Search for specific charity\"" << endl;
+                cout << "Enter the name of a specific charity: ";
+                cin.ignore();
+                getline(cin, charityName);
+                cout << charityName << endl;
+                numId = ReturnIndexFromName(charities, charityName);
+                if (numId != -1) {
+                    PrintCharityIndex(charities, numId);
+                }
+                else
+                    cout << "Please enter a valid charity name. Observe our list of charities for options (menu option \"1\")." << endl;
                 continue;
-            case 4:
-                int idNum;
-                cout << "You selected \"4. Search for specific charity\"" << endl;
-                cout << "Enter the ID-number of a specific charity: ";
-                cin >> idNum;
-                PrintCharityIndex(charities, idNum);
+            }
+            case 3:{
+                int minScore;
+                cout << "You selected \"3. Return charities with greater than minimum score\"" << endl;
+                cout << "Enter desired minimum score (maximum of 100): ";
+                cin >> minScore;
+                if (minScore >= 0 && minScore <= 100) {
+                    for (int i = 1; i < charities.size(); i++) {
+                        Charity a;
+                        if (stoi(charities[i].AScore) >= minScore) {
+                            cout << charities[i].Name << endl;
+                        }
+                    }
+                }
+                else
+                    cout << "Score is not in range." << endl;
                 continue;
+            }
+            case 4:{
+                string cat;
+                cout << "You selected \"4. Return charities from user-chosen category\"" << endl;
+                cout << "Enter charity category: ";
+                cin.ignore();
+                getline(cin, cat);
+                transform(cat.begin(), cat.end(), cat.begin(), ::tolower);
+                for (int i = 1; i < charities.size(); i++) {
+                    string category = charities[i].Category;
+                    transform(category.begin(), category.end(), category.begin(), ::tolower);
+                    if (category.find(cat) != string::npos)
+                    {
+                        cout << charities[i].Name << endl;
+                    }
+                }
+                continue;
+            }
+            case 5:{
+                string state;
+                cout << "You selected \"5. Return charities from user-chosen state\"" << endl;
+                cout << "Enter charity state: ";
+                cin >> state;
+                transform(state.begin(), state.end(), state.begin(), ::tolower);
+                for (int i = 0; i < charities.size(); i++) {
+                    string st = charities[i].State;
+                    transform(st.begin(), st.end(), st.begin(), ::tolower);
+                    if(state.find(st) != string::npos){
+                        cout << charities[i].Name << endl;
+                    }
+                }
+                continue;
+            }
+            case 6: {
+                string srcName, finalName;
+                int srcIndex, finalIndex;
+                cout << "You selected \"6. Dijkstra's Algorithm\"" << endl;
+                cout << "This will find a list of the closest charities between two different charities in terms of distance." << endl;
+                cout << "Insert name of one charity: ";
+                cin.ignore();
+                getline(cin, srcName);
+                cout << "Insert name of one charity: ";
+                getline(cin, finalName);
+                if (srcIndex != -1 && finalIndex != -1) {
+                    srcIndex = ReturnIndexFromName(charities, srcName);
+                    finalIndex = ReturnIndexFromName(charities, finalName);
+                    auto t1 = Clock::now();
+                    dijkstra(charities, srcIndex, finalIndex);
+                    auto t2 = Clock::now();
+                    std::cout << "Delta t2-t1 (1000): "
+                              << duration_cast<std::chrono::nanoseconds>(t2 - t1).count()
+                              << " nanoseconds" << '\n';
+                }
+                else {
+                    cout
+                            << "Please enter valid charity names. Observe our list of charities for options (menu option \"5\")."
+                            << endl;
+                    cout << srcIndex << " : " << finalIndex << endl;
+                }
+                continue;
+            }
+            case 7: {
+                string srcName, finalName;
+                int srcIndex, finalIndex;
+                cout << "You selected \"7. Bellman-Ford's Algorithm\"" << endl;
+                cout
+                        << "This will find a list of the closest charities between two different charities in terms of distance."
+                        << endl;
+                cout << "Insert name of one charity: ";
+                cin.ignore();
+                getline(cin, srcName);
+                cout << "Insert name of one charity: ";
+                getline(cin, finalName);
+                if (srcIndex != -1 && finalIndex != -1) {
+                    srcIndex = ReturnIndexFromName(charities, srcName);
+                    finalIndex = ReturnIndexFromName(charities, finalName);
+                    auto t1 = Clock::now();
+                    BellmanFord(srcIndex, charities, finalIndex);
+                    auto t2 = Clock::now();
+                    std::cout << "Delta t2-t1 (1000): "
+                              << duration_cast<std::chrono::nanoseconds>(t2 - t1).count()
+                              << " nanoseconds" << '\n';
+                } else
+                    cout << "Please enter valid charity names. Observe our list of charities for options (menu option \"5\")." << endl;
+                continue;
+            }
             default:
                 cout << "Please select a valid option!" << endl;
                 continue;
@@ -461,4 +547,3 @@ int main()
 
     return 0;
 }
-
