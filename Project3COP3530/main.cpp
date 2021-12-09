@@ -6,6 +6,8 @@
 #include <iomanip>
 #include <stack>
 #include <algorithm>
+#include <random>
+
 using namespace std;
 
 int numberOfCharities = 8409; //Zoe said "Fix later"
@@ -49,11 +51,12 @@ public:
     };
     void PrintCharityIndex(vector<Charity>& charities, int i);
     void PrintCharities(vector<Charity>& charities);
+    int ReturnIndexFromName(vector<Charity>& charities, string charityName);
 };
 
 void PrintCharityIndex(vector<Charity>& charities, int i)
 {
-    cout << "Name (Index Number): " << charities[i].Name << " (" << charities[i].index << "):" << endl;
+    cout << "Name: " << charities[i].Name << endl;
     cout << setw(5) << "Category: " << charities[i].Category << endl;
     cout << setw(5) << "Subcategory: " << charities[i].Subcategory << endl;
     cout << setw(5) << "State: " << charities[i].State << endl;
@@ -66,6 +69,19 @@ void PrintCharities(vector<Charity>& charities)
         PrintCharityIndex(charities, i);
         cout << "------------------------------------------------------------------------" << endl;
     }
+}
+
+int ReturnIndexFromName(vector<Charity>& charities, string charityName)
+{
+    int index = -1;
+    for (int i = 0; i < charities.size(); i++)
+    {
+        if (charityName == charities[i].Name)
+        {
+            index = i;
+        }
+    }
+    return index;
 }
 
 // CSV Reading from stackoverflow user sastanin (https://stackoverflow.com/questions/1120140/how-can-i-read-and-parse-csv-files-in-c)
@@ -276,14 +292,6 @@ void dijkstra(vector<Charity>& v, int src, int dest){
             printf("%d\t\t%d\n", i, d[i]);
     }*/
 
-
-
-/*printf("Vertex  Distance from Source\n");
-for(int i = 0; i < numberOfCharities; i++) {
-    if(dist[i] != INT_MAX)
-        printf("%d\t\t%d\n", i, dist[i]);
-}*/
-
 }
 
 int main()
@@ -326,24 +334,6 @@ int main()
         weightRandomizer(charities[i], charities);
     }
 
-//KOINDA NEEDA FIX THIS HERE OOP
-//    /****************** Add rest of random nodes to charity graph ******************/
-    bool extraNodes = false;
-    cout << "use 91591 random nodes? (type 1 for yes and 0 for no)" << endl;
-    cin >> extraNodes;
-    if (extraNodes) {
-        for (int i = 0; i < 91591; i++) {
-            Charity newCharity;
-            Charity::Node *b = new Charity::Node;
-            int randomWeight = rand() % 1000;
-            b->weight = randomWeight;
-            b->next = nullptr;
-            newCharity.head = b;
-            charities.push_back(newCharity);
-        }
-    }
-
-
     int colWidth = 20;
     int option = -1;
     cout << setfill('=') << setw(5*colWidth) << "=" << endl;
@@ -352,6 +342,54 @@ int main()
     cout << "Welcome to Charity Navigator2.0! This program seeks to store charity data and provide answers" << endl;
     cout << "to search queries and distance traversal problems regarding the charity data." << endl;//    cout << setfill(' ') << fixed;
 
+    /****************** Add rest of random nodes to charity graph ******************/
+    int extraNodes = false;
+    cout << endl;
+    cout << "Insert randomly generated charities to add to 100,000 charities? (Type \"1\" for \"yes\" and \"0\" for \"no\")" << endl;
+    cin >> extraNodes;
+    int random = -1;
+    string tempName = "A";
+    string cat[9] = {"Animals", "Education", "Human Services", "International", "Arts, Culture, Humanities", "Health", "Religion", "Research and Public Policy", "Community Development"};
+    string subCat[37] = {"Adult Education Programs and Services","Advocacy and Education","Animal Rights, Welfare, and Services","Botanical Gardens, Parks, and Nature Centers","Children's and Family Services",
+                         "Community Foundations","Development and Relief Services","Diseases, Disorders, and Disciplines","Early Childhood Programs and Services","Education Policy and Reform","Environmental Protection and Conservation",
+                         "Food Banks, Food Pantries, and Food Distribution","Homeless Services","Housing and Neighborhood Development","Humanitarian Relief Supplies","International Peace, Security, and Affairs","Jewish Federations","Libraries, Historical Societies and Landmark Preservation","Medical Research",
+                         "Multipurpose Human Service Organizations","Museums","Non-Medical Science & Technology Research","Patient and Family Support","Performing Arts","Public Broadcasting and Media","Religious Activities","Religious Media and Broadcasting","Scholarship and Financial Support","Social and Public Policy Research",
+                         "Social Services","Special Education","Treatment and Prevention Services","United Ways","Wildlife Conservation","Youth Development, Shelter, and Crisis Services","Youth Education Programs and Services","Zoos and Aquariums"};
+    string state[50] = {"AL","AK","AZ","AR","CA","CO","CT","DE","FL","GA","HI","ID","IL","IN","IA","KS","KY","LA","ME","MD","MA","MI","MN","MS","MO","MT","NE","NV","NH","NJ","NM","NY","NC","ND","OH","OK","OR","PA","RI","SC","SD","TN","TX","UT","VT","VA","WA","WV","WI","WY"};
+
+    random_device dev;
+    mt19937 rng(dev());
+    uniform_int_distribution<std::mt19937::result_type> catRNG(0,8);
+    uniform_int_distribution<std::mt19937::result_type> scoreRNG(60,100);
+    uniform_int_distribution<std::mt19937::result_type> subCatRNG(0,36);
+    uniform_int_distribution<std::mt19937::result_type> stateRNG(0,49);
+
+
+    if (extraNodes == 1) {
+        cout << "You've added 91591 randomly generated charities! Actually we did, but congrats anyway!" << endl;
+        for (int i = 0; i < 91591; i++) {
+            Charity newCharity;
+            newCharity.Name = "A" + to_string(i);
+            newCharity.Category = cat[catRNG(rng)];
+            newCharity.AScore = to_string(scoreRNG(rng));
+            newCharity.Subcategory = subCat[subCatRNG(rng)];
+            newCharity.State = state[stateRNG(rng)];
+            Charity::Node *b = new Charity::Node;
+            int randomWeight = rand() % 1000;
+            b->weight = randomWeight;
+            b->next = nullptr;
+            newCharity.head = b;
+            charities.push_back(newCharity);
+        }
+    }
+    else if (extraNodes == 0)
+    {
+        cout << "You've skipped out on the extra charities ;-;" << endl;
+    }
+    else
+    {
+        cout << "You didn't enter \"1\" or \"0\" ;-;" << endl;
+    }
 
     while(option != 0) {
         cout << setw(colWidth) << setfill('=') << " MENU " << setw(colWidth-6) << "=" << endl;
@@ -363,15 +401,27 @@ int main()
             case 0:
                 cout << "Thanks for using Charity NaviGator2.0! See you later alligator!!" << endl;
                 break;
-            case 1:
-                int src;
-                int final;
+            case 1: {
+                string srcName, finalName;
+                int srcIndex, finalIndex;
                 cout << "You selected \"1. Dijkstra's Algorithm\"" << endl;
-                cout << "insert a starting and final charity index";
-                cin >> src;
-                cin >> final;
-                dijkstra(charities, src, final);
+                cout
+                        << "This will find a list of the closest charities between two different charities in terms of distance."
+                        << endl;
+                cout << "Insert name of one charity: ";
+                cin.ignore();
+                getline(cin, srcName);
+                cout << "Insert name of one charity: ";
+                getline(cin, finalName);
+                if (srcIndex != -1 && finalIndex != -1) {
+                    srcIndex = ReturnIndexFromName(charities, srcName);
+                    finalIndex = ReturnIndexFromName(charities, finalName);
+                    dijkstra(charities, srcIndex, finalIndex);
+                }
+                else
+                    cout << "Please enter valid charity names. Observe our list of charities for options (menu option \"5\")." << endl;
                 continue;
+            }
             case 2:
                 cout << "You selected \"2. Bellman-Ford's Algorithm\"" << endl;
                 BellmanFord(0, charities, 8408);
@@ -379,41 +429,57 @@ int main()
             case 3:{
                 int minScore;
                 cout << "You selected \"3. Return charities with greater than minimum score\"" << endl;
-                cout << "Enter desired minimum score: ";
+                cout << "Enter desired minimum score (maximum of 100): ";
                 cin >> minScore;
-                for (int i = 1; i < charities.size(); i++) {
-                    Charity a;
-                    if(stoi(charities[i].AScore) >= minScore){
-                        cout << charities[i].Name << endl;
+                if (minScore >= 0 && minScore <= 100) {
+                    for (int i = 1; i < charities.size(); i++) {
+                        Charity a;
+                        if (stoi(charities[i].AScore) >= minScore) {
+                            cout << charities[i].Name << endl;
+                        }
                     }
                 }
-                continue;}
+                else
+                    cout << "Score is not in range." << endl;
+                continue;
+            }
             case 4:{
                 string cat;
-                cout << "four" << endl;
-                cin >> cat;
+                cout << "You selected \"4. Return charities of same category\"" << endl;
+                cout << "Enter charity category: ";
+                cin.ignore();
+                getline(cin, cat);
+                transform(cat.begin(), cat.end(), cat.begin(), ::tolower);
                 for (int i = 1; i < charities.size(); i++) {
-                    Charity a;
-                    string category = a.Category;
+                    string category = charities[i].Category;
                     transform(category.begin(), category.end(), category.begin(), ::tolower);
-                    if (category.find(cat) != string::npos) {
+                    if (category.find(cat) != string::npos)
+                    {
                         cout << charities[i].Name << endl;
                     }
                 }
-                continue;}
+                continue;
+            }
             case 5:
                 cout << "You selected \"5. Show List of Charities\"" << endl;
                 PrintCharities(charities);
                 continue;
-                // do smth else
-                continue;
-            case 6:
-                int idNum;
+            case 6: {
+                string charityName;
+                int numId;
                 cout << "You selected \"6. Search for specific charity\"" << endl;
-                cout << "Enter the ID-number of a specific charity: ";
-                cin >> idNum;
-                PrintCharityIndex(charities, idNum);
+                cout << "Enter the name of a specific charity: ";
+                cin.ignore();
+                getline(cin, charityName);
+                cout << charityName << endl;
+                numId = ReturnIndexFromName(charities, charityName);
+                if (numId != -1) {
+                    PrintCharityIndex(charities, numId);
+                }
+                else
+                    cout << "Please enter a valid charity name. Observe our list of charities for options (menu option \"5\")." << endl;
                 continue;
+            }
             default:
                 cout << "Please select a valid option!" << endl;
                 continue;
