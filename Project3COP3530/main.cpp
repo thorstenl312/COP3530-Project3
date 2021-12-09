@@ -3,7 +3,8 @@
 #include <sstream>
 #include <vector>
 #include <stdlib.h>
-
+#include <iomanip>
+#include <stack>
 using namespace std;
 
 int numberOfCharities = 8409; //Zoe said "Fix later"
@@ -45,27 +46,8 @@ public:
         Subcategory = "empty";
         numberOfConnections = 0;
     };
-    void PrintCharityIndex(vector<Charity>& charities, int i);
-    void PrintCharities(vector<Charity>& charities);
 
 };
-
-void PrintCharityIndex(vector<Charity>& charities, int i)
-{
-    cout << "Name (Index Number): " << charities[i].Name << " (" << charities[i].index << "):" << endl;
-    cout << setw(5) << "Category: " << charities[i].Category << endl;
-    cout << setw(5) << "Subcategory: " << charities[i].Subcategory << endl;
-    cout << setw(5) << "State: " << charities[i].State << endl;
-    cout << setw(5) << "Score: " << charities[i].AScore << endl;
-}
-void PrintCharities(vector<Charity>& charities)
-{
-    for (int i = 0; i < charities.size(); i++)
-    {
-        PrintCharityIndex(charities, i);
-        cout << "------------------------------------------------------------------------" << endl;
-    }
-}
 
 // CSV Reading from stackoverflow user sastanin (https://stackoverflow.com/questions/1120140/how-can-i-read-and-parse-csv-files-in-c)
 enum class CSVState {
@@ -73,6 +55,7 @@ enum class CSVState {
     QuotedField,
     QuotedQuote
 };
+
 vector<string> readCSVRow(const string &row) {
     CSVState state = CSVState::UnquotedField;
     vector<string> fields {""};
@@ -205,21 +188,41 @@ void BellmanFord(Charity src, vector<Charity>& graph) {
         }
     }
 
-//    printf("Vertex  Distance from Source\n");
-//    for(int i = 0; i < numberOfCharities; i++) {
-//        if(dist[i] != INT_MAX)
-//            printf("%d\t\t%d\n", i, dist[i]);
-//    }
+
+    stack<string> st;
+    int curr = dest;
+    st.push(v[dest].Name);
+    st.push(v[p[curr]].Name);
+    curr = p[curr];
+    while(src != curr){
+        st.push(v[p[curr]].Name);
+        curr = p[curr];
+    }
+    cout << st.top();
+    st.pop();
+    while(!st.empty()){
+        cout << ", " << st.top();
+        st.pop();
+    }
+    cout << endl << endl;
+    /*printf("Vertex  Distance from Source\n");
+    for(int i = 0; i < numberOfCharities; i++) {
+        if(dist[i] != INT_MAX)
+            printf("%d\t\t%d\n", i, dist[i]);
+    }*/
 
 }
-void dijkstra(vector<Charity>& v, int src){
+void dijkstra(vector<Charity>& v, int src, int dest){
     int d[numberOfCharities];
+    int p[numberOfCharities];
     bool s[numberOfCharities];
     for(int i = 0; i < numberOfCharities; i++){
         d[i] = INT_MAX;
         s[i] = false;
+        p[i] = -1;
     }
     d[src] = 0;
+    p[src] = src;
     for(int i = 0; i < numberOfCharities - 1; i++){
         int min = INT_MAX;
         int min_index;
@@ -234,18 +237,33 @@ void dijkstra(vector<Charity>& v, int src){
         while(temp != nullptr){
             if(!s[temp->charnode->index] && temp->weight && d[min_index] != INT_MAX && d[min_index] + temp->weight < d[temp->charnode->index]){
                 d[temp->charnode->index] = temp->weight + d[min_index];
+                p[temp->charnode->index] = min_index;
             }
             temp = temp->next;
         }
     }
-
-//    printf("Vertex  Distance from Source\n");
-//    for(int i = 0; i < numberOfCharities; i++) {
-//        if(d[i] != INT_MAX)
-//            printf("%d\t\t%d\n", i, d[i]);
-//    }
+    stack<string> st;
+    int curr = dest;
+    st.push(v[dest].Name);
+    st.push(v[p[curr]].Name);
+    curr = p[curr];
+    while(src != curr){
+        st.push(v[p[curr]].Name);
+        curr = p[curr];
+    }
+    cout << st.top();
+    st.pop();
+    while(!st.empty()){
+        cout << ", " << st.top();
+        st.pop();
+    }
+    cout << endl << endl;
+    /*printf("Vertex  Distance from Source\n");
+    for(int i = 0; i < numberOfCharities; i++) {
+        if(d[i] != INT_MAX)
+            printf("%d\t\t%d\n", i, d[i]);
+    }*/
 }
-
 int main()
 {
     vector<Charity> charities;
@@ -286,28 +304,32 @@ int main()
         weightRandomizer(charities[i], charities);
     }
 
-    /****************** Add rest of random nodes to charity graph ******************/
-    bool extraNodes = false;
-    cout << "Use 91591 random nodes? (Type 1 for yes and 0 for no)" << endl;
-    cin >> extraNodes;
-    if (extraNodes)
-    {
-        for (int i = 0; i < 91591; i++) {
-            Charity newCharity;
-            Charity::Node *b = new Charity::Node;
-            int randomWeight = rand() % 1000;
-            b->weight = randomWeight;
-            b->next = nullptr;
-            newCharity.head = b;
-            charities.push_back(newCharity);
+//KOINDA NEEDA FIX THIS HERE OOP
+//    /****************** Add rest of random nodes to charity graph ******************/
+//    bool extraNodes = false;
+//    cout << "use 91591 random nodes? (type 1 for yes and 0 for no)" << endl;
+//    cin >> extraNodes;
+//    if (extraNodes)
+//    {
+//        for (int i = 0; i < 91591; i++) {
+//            Charity newCharity;
+//            Charity::Node *b = new Charity::Node;
+//            int randomWeight = rand() % 1000;
+//            b->weight = randomWeight;
+//            b->next = nullptr;
+//            newCharity.head = b;
+//            charities.push_back(newCharity);
 
-        }
-        cout << endl;
-    }
+//    for(int i = 0 ; i < charities.size(); i++) {
+//        Charity::Node* temp = charities[i].head;
+//        cout << charities[i].index << " : ";
+//        while(temp->next != nullptr) {
+//            cout << temp->charnode->Name << ", ";
+//            temp = temp->next;
+//        }
+//        cout << endl;
+//    }
 
-    //BellmanFord(charities[0], charities);
-    dijkstra(charities, 0);
-    BellmanFord(charities[0], charities);
 //    for (int i = 0; i < charities.size(); i++) {
 //        Charity::Node* temp = charities[i].head;
 //        cout << "Charity " << charities[i].Name << " connected to" << endl;
@@ -329,7 +351,7 @@ int main()
 
     while(option != 0) {
         cout << setw(colWidth) << setfill('=') << " MENU " << setw(colWidth-6) << "=" << endl;
-        cout << "0. Exit\n1. Dijkstra's Algorithm\n2. Bellman-Ford's Algorithm\n3. Show List of Charities\n4. Search for specific charity" << endl;
+        cout << "0. Exit\n1. Dijkstra's Algorithm\n2. Bellman-Ford's Algorithm\n3. etc." << endl;
         cout << "Please Choose an option: " << endl;
         cin >> option;
 
@@ -339,23 +361,21 @@ int main()
                 cout << "Thanks for using Charity NaviGator2.0! See you later alligator!!" << endl;
                 break;
             case 1:
-                cout << "You selected \"1. Dijkstra's Algorithm\"" << endl;
-                // do dijkstra's algo
+                int src;
+                int final;
+                cout << "one" << endl;
+                cout << "insert a starting and final charity index";
+                cin >> src;
+                cin >> final;
+                dijkstra(charities, src, final);
                 continue;
             case 2:
-                cout << "You selected \"2. Bellman-Ford's Algorithm\"" << endl;
-                // do bellman-ford algo
+                cout << "two" << endl;
+                BellmanFord(charities[0], charities);
                 continue;
             case 3:
-                cout << "You selected \"3. Show List of Charities\"" << endl;
-                PrintCharities(charities);
-                continue;
-            case 4:
-                int idNum;
-                cout << "You selected \"4. Search for specific charity\"" << endl;
-                cout << "Enter the ID-number of a specific charity: ";
-                cin >> idNum;
-                PrintCharityIndex(charities, idNum);
+                cout << "three" << endl;
+                // do smth else
                 continue;
             default:
                 cout << "Please select a valid option!" << endl;
