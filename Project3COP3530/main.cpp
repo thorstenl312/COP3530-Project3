@@ -297,6 +297,7 @@ int main()
 
     //BellmanFord(charities[0], charities);
     dijkstra(charities, 0);
+    BellmanFord(charities[0], charities);
 //    for (int i = 0; i < charities.size(); i++) {
 //        Charity::Node* temp = charities[i].head;
 //        cout << "Charity " << charities[i].Name << " connected to" << endl;
