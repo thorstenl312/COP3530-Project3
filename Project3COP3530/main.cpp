@@ -7,10 +7,12 @@
 #include <stack>
 #include <algorithm>
 #include <random>
+#include <chrono>
 
 using namespace std;
+typedef std::chrono::high_resolution_clock Clock;
 
-int numberOfCharities = 8409; //Zoe said "Fix later"
+int numberOfCharities = 8409;
 int numberOfEdges = 0;
 
 class Charity {
@@ -21,7 +23,6 @@ public:
         Node* next;
         int weight;
         Charity* charnode;
-        //string charname;
 
         Node() {
             next = nullptr;
@@ -74,9 +75,12 @@ void PrintCharities(vector<Charity>& charities)
 int ReturnIndexFromName(vector<Charity>& charities, string charityName)
 {
     int index = -1;
+    transform(charityName.begin(), charityName.end(), charityName.begin(), ::tolower);
     for (int i = 0; i < charities.size(); i++)
     {
-        if (charityName == charities[i].Name)
+        string charName = charities[i].Name;
+        transform(charName.begin(), charName.end(), charName.begin(), ::tolower);
+        if (charityName == charName)
         {
             index = i;
         }
@@ -90,7 +94,6 @@ enum class CSVState {
     QuotedField,
     QuotedQuote
 };
-
 vector<string> readCSVRow(const string &row) {
     CSVState state = CSVState::UnquotedField;
     vector<string> fields {""};
@@ -330,6 +333,7 @@ int main()
         }
         charities.push_back(a);
     }
+    // Generate random weights and edges
     for(int i = 0; i < charities.size(); i++){
         weightRandomizer(charities[i], charities);
     }
@@ -365,7 +369,7 @@ int main()
 
 
     if (extraNodes == 1) {
-        cout << "You've added 91591 randomly generated charities! Actually we did, but congrats anyway!" << endl;
+        cout << "You've added 91591 randomly generated charities!" << endl;
         for (int i = 0; i < 91591; i++) {
             Charity newCharity;
             newCharity.Name = "A" + to_string(i);
@@ -373,11 +377,12 @@ int main()
             newCharity.AScore = to_string(scoreRNG(rng));
             newCharity.Subcategory = subCat[subCatRNG(rng)];
             newCharity.State = state[stateRNG(rng)];
-            Charity::Node *b = new Charity::Node;
-            int randomWeight = rand() % 1000;
-            b->weight = randomWeight;
-            b->next = nullptr;
-            newCharity.head = b;
+            newCharity.index = i-1;
+//            Charity::Node *b = new Charity::Node;
+//            int randomWeight = rand() % 1000;
+//            b->weight = randomWeight;
+//            b->next = nullptr;
+//            newCharity.head = b;
             charities.push_back(newCharity);
         }
     }
@@ -390,9 +395,14 @@ int main()
         cout << "You didn't enter \"1\" or \"0\" ;-;" << endl;
     }
 
+//    // Generate random weights and edges
+//    for(int i = 0; i < charities.size(); i++){
+//        weightRandomizer(charities[i], charities);
+//    }
+
     while(option != 0) {
         cout << setw(colWidth) << setfill('=') << " MENU " << setw(colWidth-6) << "=" << endl;
-        cout << "0. Exit\n1. Show List of Charities\n2. Search for specific charity\n3. Return charities with greater than minimum score\n4. Return charities in user-chosen category\n5. Return charities in user-chosen state\n6. Dijkstra's Algorithm\n7. Bellman-Ford's Algorithm" << endl;
+        cout << "0. Exit\n1. Show list of charities\n2. Search for specific charity\n3. Return charities with greater than minimum score\n4. Return charities in user-chosen category\n5. Return charities in user-chosen state\n6. Dijkstra's Algorithm\n7. Bellman-Ford's Algorithm" << endl;
         cout << "Please Choose an option: " << endl;
         cin >> option;
 
@@ -402,7 +412,7 @@ int main()
                 cout << "Thanks for using Charity NaviGator2.0! See you later alligator!!" << endl;
                 break;
             case 1: {
-                cout << "You selected \"1. Show List of Charities\"" << endl;
+                cout << "You selected \"1. Show list of charities\"" << endl;
                 PrintCharities(charities);
                 continue;
             }
@@ -458,7 +468,6 @@ int main()
             }
             case 5:{
                 string state;
-                transform(state.begin(), state.end(), state.begin(), ::tolower);
                 cout << "You selected \"5. Return charities from user-chosen state\"" << endl;
                 cout << "Enter charity state: ";
                 cin >> state;
@@ -485,10 +494,19 @@ int main()
                 if (srcIndex != -1 && finalIndex != -1) {
                     srcIndex = ReturnIndexFromName(charities, srcName);
                     finalIndex = ReturnIndexFromName(charities, finalName);
+                    auto t1 = Clock::now();
                     dijkstra(charities, srcIndex, finalIndex);
+                    auto t2 = Clock::now();
+                    std::cout << "Delta t2-t1 (1000): "
+                              << duration_cast<std::chrono::nanoseconds>(t2 - t1).count()
+                              << " nanoseconds" << '\n';
                 }
-                else
-                    cout << "Please enter valid charity names. Observe our list of charities for options (menu option \"5\")." << endl;
+                else {
+                    cout
+                            << "Please enter valid charity names. Observe our list of charities for options (menu option \"5\")."
+                            << endl;
+                    cout << srcIndex << " : " << finalIndex << endl;
+                }
                 continue;
             }
             case 7: {
@@ -506,7 +524,12 @@ int main()
                 if (srcIndex != -1 && finalIndex != -1) {
                     srcIndex = ReturnIndexFromName(charities, srcName);
                     finalIndex = ReturnIndexFromName(charities, finalName);
+                    auto t1 = Clock::now();
                     BellmanFord(srcIndex, charities, finalIndex);
+                    auto t2 = Clock::now();
+                    std::cout << "Delta t2-t1 (1000): "
+                              << duration_cast<std::chrono::nanoseconds>(t2 - t1).count()
+                              << " nanoseconds" << '\n';
                 } else
                     cout << "Please enter valid charity names. Observe our list of charities for options (menu option \"5\")." << endl;
                 continue;
