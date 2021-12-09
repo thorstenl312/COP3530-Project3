@@ -276,7 +276,7 @@ void dijkstra(vector<Charity>& v, int src, int dest){
             printf("%d\t\t%d\n", i, d[i]);
     }*/
 }
-<<<<<<< Updated upstream
+
     stack<string> st;
     int curr = dest;
     st.push(graph[dest].Name);
@@ -293,7 +293,6 @@ void dijkstra(vector<Charity>& v, int src, int dest){
         st.pop();
     }
     cout << endl << endl;
-=======
 
     /*printf("Vertex  Distance from Source\n");
     for(int i = 0; i < numberOfCharities; i++) {
@@ -410,7 +409,6 @@ int main()
                 dijkstra(charities, src, final);
                 continue;
             case 2:
-<<<<<<< Updated upstream
                 cout << "two" << endl;
                 BellmanFord(0, charities, 8408);
                 continue;
@@ -438,7 +436,6 @@ int main()
                     }
                 }
                 continue;}
-=======
                 cout << "You selected \"2. Bellman-Ford's Algorithm\"" << endl;
                 BellmanFord(charities[0], charities);
                 continue;
@@ -455,7 +452,6 @@ int main()
                 cin >> idNum;
                 PrintCharityIndex(charities, idNum);
                 continue;
->>>>>>> Stashed changes
             default:
                 cout << "Please select a valid option!" << endl;
                 continue;
