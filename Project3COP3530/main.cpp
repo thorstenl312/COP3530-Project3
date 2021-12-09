@@ -3,8 +3,8 @@
 #include <sstream>
 #include <vector>
 #include <stdlib.h>
-#include <set>
-#include <queue>
+#include <iomanip>
+#include <stack>
 using namespace std;
 
 int numberOfCharities = 8409; //Zoe said "Fix later"
@@ -55,6 +55,7 @@ enum class CSVState {
     QuotedField,
     QuotedQuote
 };
+
 vector<string> readCSVRow(const string &row) {
     CSVState state = CSVState::UnquotedField;
     vector<string> fields {""};
@@ -187,21 +188,41 @@ void BellmanFord(Charity src, vector<Charity>& graph) {
         }
     }
 
-    printf("Vertex  Distance from Source\n");
+
+    stack<string> st;
+    int curr = dest;
+    st.push(v[dest].Name);
+    st.push(v[p[curr]].Name);
+    curr = p[curr];
+    while(src != curr){
+        st.push(v[p[curr]].Name);
+        curr = p[curr];
+    }
+    cout << st.top();
+    st.pop();
+    while(!st.empty()){
+        cout << ", " << st.top();
+        st.pop();
+    }
+    cout << endl << endl;
+    /*printf("Vertex  Distance from Source\n");
     for(int i = 0; i < numberOfCharities; i++) {
         if(dist[i] != INT_MAX)
             printf("%d\t\t%d\n", i, dist[i]);
-    }
+    }*/
 
 }
-void dijkstra(vector<Charity>& v, int src){
+void dijkstra(vector<Charity>& v, int src, int dest){
     int d[numberOfCharities];
+    int p[numberOfCharities];
     bool s[numberOfCharities];
     for(int i = 0; i < numberOfCharities; i++){
         d[i] = INT_MAX;
         s[i] = false;
+        p[i] = -1;
     }
     d[src] = 0;
+    p[src] = src;
     for(int i = 0; i < numberOfCharities - 1; i++){
         int min = INT_MAX;
         int min_index;
@@ -216,15 +237,32 @@ void dijkstra(vector<Charity>& v, int src){
         while(temp != nullptr){
             if(!s[temp->charnode->index] && temp->weight && d[min_index] != INT_MAX && d[min_index] + temp->weight < d[temp->charnode->index]){
                 d[temp->charnode->index] = temp->weight + d[min_index];
+                p[temp->charnode->index] = min_index;
             }
             temp = temp->next;
         }
     }
-    printf("Vertex  Distance from Source\n");
+    stack<string> st;
+    int curr = dest;
+    st.push(v[dest].Name);
+    st.push(v[p[curr]].Name);
+    curr = p[curr];
+    while(src != curr){
+        st.push(v[p[curr]].Name);
+        curr = p[curr];
+    }
+    cout << st.top();
+    st.pop();
+    while(!st.empty()){
+        cout << ", " << st.top();
+        st.pop();
+    }
+    cout << endl << endl;
+    /*printf("Vertex  Distance from Source\n");
     for(int i = 0; i < numberOfCharities; i++) {
         if(d[i] != INT_MAX)
             printf("%d\t\t%d\n", i, d[i]);
-    }
+    }*/
 }
 int main()
 {
@@ -292,9 +330,6 @@ int main()
 //        cout << endl;
 //    }
 
-    //BellmanFord(charities[0], charities);
-    dijkstra(charities, 0);
-    BellmanFord(charities[0], charities);
 //    for (int i = 0; i < charities.size(); i++) {
 //        Charity::Node* temp = charities[i].head;
 //        cout << "Charity " << charities[i].Name << " connected to" << endl;
@@ -325,13 +360,18 @@ int main()
             case 0:
                 cout << "Thanks for using Charity NaviGator2.0! See you later alligator!!" << endl;
                 break;
-                ;            case 1:
+            case 1:
+                int src;
+                int final;
                 cout << "one" << endl;
-                // do dijkstra's algo
+                cout << "insert a starting and final charity index";
+                cin >> src;
+                cin >> final;
+                dijkstra(charities, src, final);
                 continue;
             case 2:
                 cout << "two" << endl;
-                // do bellman-ford algo
+                BellmanFord(charities[0], charities);
                 continue;
             case 3:
                 cout << "three" << endl;
