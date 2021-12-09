@@ -167,26 +167,59 @@ void weightRandomizer(Charity& a, vector<Charity>& v){
 void BellmanFord(Charity src, vector<Charity>& graph) {
     int dist[numberOfCharities];
 
-    for(int i = 0; i <= numberOfCharities; i++) {
+    for(int i = 0; i < numberOfCharities; i++) {
         dist[i] = INT_MAX;
     }
 
     dist[src.index] = 0;
 
-    for(int i = 0; i <= 1; i++) {
-        Charity::Node* temp = src.head;
-        while(temp->next != nullptr) {
-            int weight = temp->weight;
-            if(dist[graph[i].index] != INT_MAX && dist[graph[i].index] + weight < dist[temp->charnode->index]) {
-                dist[temp->charnode->index] = dist[graph[i].index] + weight;
-                cout <<dist[graph[i].index] + weight << endl;
+//    int source = src.index;
+//    Charity::Node* temp = src.head;
+//    while(temp->next != nullptr) {
+//        int dest = temp->charnode->index;
+//        int weight = temp->weight;
+//        //int weight = temp->weight;
+//        if(dist[source] != INT_MAX && dist[source] + weight < dist[dest]) {
+//            dist[dest] = dist[source] + weight;
+//            cout <<dist[dest] + weight << endl;
+//        }
+//    }
+
+//    for(int i = 0; i < 1; i++) {
+//        int source = graph[i].index;
+//        Charity::Node* temp = graph[i].head;
+//        while(temp->next != nullptr) {
+//            int dest = temp->charnode->index;
+//            int weight = temp->weight;
+//            //int weight = temp->weight;
+//            if(dist[source] != INT_MAX && dist[source] + weight < dist[dest]) {
+//                dist[dest] = dist[source] + weight;
+//                cout <<dist[dest] + weight << endl;
+//            }
+//        }
+//    }
+
+    for(int i = 0; i < 1; i++) {
+        for(int j = 0; j < numberOfCharities; j++) {
+            int source = graph[i].index;
+            Charity::Node* temp = graph[i].head;
+            while(temp->next != nullptr) {
+                int dest = temp->charnode->index;
+                int weight = temp->weight;
+                if(dist[source] != INT_MAX && dist[source] + weight < dist[dest]) {
+                    dist[dest] = dist[source] + weight;
+                }
+                temp = temp->next;
             }
         }
     }
 
+
+
     printf("Vertex  Distance from Source\n");
     for(int i = 0; i < numberOfCharities; i++) {
-        printf("%d\t\t%d\nn", i, dist[i]);
+        if(dist[i] != INT_MAX)
+            printf("%d\t\t%d\n", i, dist[i]);
     }
 
 }
@@ -272,7 +305,7 @@ int main()
     for (int i = 1; i < charityData.size(); i++)
     {
         Charity a;
-        a.index = i;
+        a.index = i-1;
         for (int j = 0; j < charityData[i].size(); j++)
         {
             if(j == 0) {
@@ -295,26 +328,29 @@ int main()
     }
     for(int i = 0; i < charities.size(); i++){
         weightRandomizer(charities[i], charities);
-//        if(charities[i].head == nullptr) {
-//            cout << "true" << endl;
-//
-//        }
-//        else {
-//            cout << "false" << endl;
-//            cout << charities[i].head->weight << endl;
-//        }
     }
+
+//    for(int i = 0 ; i < charities.size(); i++) {
+//        Charity::Node* temp = charities[i].head;
+//        cout << charities[i].index << " : ";
+//        while(temp->next != nullptr) {
+//            cout << temp->charnode->Name << ", ";
+//            temp = temp->next;
+//        }
+//        cout << endl;
+//    }
+
     BellmanFord(charities[0], charities);
 
-    for (int i = 0; i < charities.size(); i++) {
-        Charity::Node* temp = charities[i].head;
-        cout << "Charity " << charities[i].Name << " connected to" << endl;
-        while(temp != nullptr){
-            cout << temp->weight << ":" << string(temp->charnode->Name) << " ";
-            temp = temp->next;
-        }
-        cout << endl << endl;
-    }
+//    for (int i = 0; i < charities.size(); i++) {
+//        Charity::Node* temp = charities[i].head;
+//        cout << "Charity " << charities[i].Name << " connected to" << endl;
+//        while(temp != nullptr){
+//            cout << temp->weight << ":" << string(temp->charnode->Name) << " ";
+//            temp = temp->next;
+//        }
+//        cout << endl << endl;
+//    }
 
     return 0;
 }
