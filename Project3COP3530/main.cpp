@@ -55,7 +55,6 @@ enum class CSVState {
     QuotedField,
     QuotedQuote
 };
-
 vector<string> readCSVRow(const string &row) {
     CSVState state = CSVState::UnquotedField;
     vector<string> fields {""};
@@ -187,8 +186,6 @@ void BellmanFord(Charity src, vector<Charity>& graph) {
             }
         }
     }
-
-
 
     printf("Vertex  Distance from Source\n");
     for(int i = 0; i < numberOfCharities; i++) {
