@@ -164,20 +164,21 @@ void weightRandomizer(Charity& a, vector<Charity>& v){
 
     }
 }
-void BellmanFord(Charity src, vector<Charity>& graph) {
+void BellmanFord(int src, vector<Charity>& graph, int d) {
     int dist[numberOfCharities];
+    vector <int> paths[numberOfCharities];
 
     for(int i = 0; i < numberOfCharities; i++) {
         dist[i] = INT_MAX;
     }
 
-    dist[src.index] = 0;
+    dist[src] = 0;
 
     for(int i = 0; i < numberOfCharities; i++) {
         for(int j = 0; j < numberOfCharities; j++) {
-            int source = graph[i].index;
-            Charity::Node* temp = graph[i].head;
-            while(temp->next != nullptr) {
+            int source = graph[j].index;
+            Charity::Node* temp = graph[j].head;
+            while(temp != nullptr) {
                 int dest = temp->charnode->index;
                 int weight = temp->weight;
                 if(dist[source] != INT_MAX && dist[source] + weight < dist[dest]) {
@@ -190,9 +191,9 @@ void BellmanFord(Charity src, vector<Charity>& graph) {
 
 
     stack<string> st;
-    int curr = dest;
-    st.push(v[dest].Name);
-    st.push(v[p[curr]].Name);
+    int curr = d;
+    st.push(graph[d].Name);
+    st.push(graph[p[curr]].Name);
     curr = p[curr];
     while(src != curr){
         st.push(v[p[curr]].Name);
