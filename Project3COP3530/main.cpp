@@ -175,8 +175,8 @@ void BellmanFord(Charity src, vector<Charity>& graph) {
 
     for(int i = 0; i < numberOfCharities; i++) {
         for(int j = 0; j < numberOfCharities; j++) {
-            int source = graph[i].index;
-            Charity::Node* temp = graph[i].head;
+            int source = graph[j].index;
+            Charity::Node* temp = graph[j].head;
             while(temp->next != nullptr) {
                 int dest = temp->charnode->index;
                 int weight = temp->weight;
